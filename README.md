@@ -37,7 +37,7 @@ Each connection is a row in a CSV file as follows:
 0,tcp,http,SF,215,45076,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0,0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,normal.
 ```
 
-#### Network connection characteristics
+#### Network connection characteristics
 
 For each network connection, the data set contains the **42** following characteristics: 
 
@@ -88,7 +88,7 @@ For each network connection, the data set contains the **42** following characte
 
 The label value, given in the last field, can be one of the following : *back, buffer\_overflow, ftp_write, guess_passwd, imap, ipsweep, land, loadmodule, multihop, neptune, nmap, normal, perl, phf, pod, portsweep, rootkit, satan, smurf, spy, teardrop, warezclient, warezmaster*. In the dataset, most connections are labeled *normal*.
 
-#### Attacks main categories
+#### Attacks main categories
 
 The various attacks can be divided into four main categories:
 
