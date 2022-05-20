@@ -8,6 +8,7 @@
 **/project/build.properties
 **/shelf/
 **/workspace.xml
+**/KDD-Cup_Dataset
 
 # Editor-based HTTP Client requests
 **/httpRequests/
@@ -18,3 +19,6 @@
 
 # Zeppelin ignored files
 **/ZeppelinRemoteNotebooks/
+anomaly-kmeans/kddcup.data
+
+
