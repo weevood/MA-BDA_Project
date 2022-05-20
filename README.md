@@ -99,13 +99,13 @@ The various attacks can be divided into four main categories:
 
 ### 2. Description of the features used and any pre-processing to extract additional features
 
+📝 TODO
+
 ### 3. Questions for which you hope to get an answer from the analysis
 
 We have decided to develop the following analytical questions and answer them using *Spark*.
 
-#### a) What are the characteristics and features that define an anomaly ?
-#### b) How to find the optimal value of the hyperparameter K of the K-means clustering ?
-#### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
+#### a) What are the characteristics and features that define an anomaly ? <br> b) How to find the optimal value of the hyperparameter K of the K-means clustering ? <br> c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 
 ### 4. Algorithms you applied
 
@@ -115,7 +115,7 @@ We have decided to develop the following analytical questions and answer them us
 
 ### 7. Results you obtained
 
-The three analytical questions, which we had to develop and answer using the Spark results, are available below.
+The three analytical questions results, which we had to develop and answer using the Spark, are available below.
 
 #### a) What are the characteristics and features that define an anomaly ?
 ##### Result
