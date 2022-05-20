@@ -1,0 +1,7 @@
+**/.idea
+**/.vscode
+**/.bsp
+**/build.sbt
+**/kddcup.data.gz
+**/target
+**/project/build.properties
