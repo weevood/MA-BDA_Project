@@ -10,19 +10,6 @@ The dataset was generated for a data analysis competition from raw TCP dump data
 
 As the data is not labeled, an unsupervised learning algorithm is applied, more specifically *K-means clustering*. The idea is to let the clustering discover normal behavior. Connections that fall outside of clusters are potentially anomalous.
 
-**Analytical question ideas**
-
-- _What defines an anomaly ?_
-- _Why use an unsupervised algorithm such as K-Means ?_
-- _How to find the correct K ?_
-- _Which types of anomaly can we detect on a network ?_
-- _Which patterns are often used by attackers to exploit flaws ?_
-- _What is the distribution of attacks on each protocol (TCP, UDP, ICMP...) ?_
-	- _By which service (port) were they carried out ?_
-	- _What type of attacks are they?_
-	- _What was the final purpose of the attack ?_
-	- _..._
-
 ## Documentation
 
 ### 1. Description of the dataset (size, information it contains)
@@ -103,9 +90,24 @@ The various attacks can be divided into four main categories:
 
 ### 3. Questions for which you hope to get an answer from the analysis
 
-We have decided to develop the following analytical questions and answer them using *Spark*.
+After brainstorming and validation, we have decided to develop the following analytical questions and answer them using *Spark*.
 
-#### a) What are the characteristics and features that define an anomaly ? <br> b) How to find the optimal value of the hyperparameter K of the K-means clustering ? <br> c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
+ - **What are the characteristics and features that define an anomaly ?**
+ - **How to find the optimal value of the hyperparameter K of the K-means clustering ?**
+ - **What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?**
+
+###### Analytical question ideas
+
+- _What defines an anomaly ?_
+- _Why use an unsupervised algorithm such as K-Means ?_
+- _How to find the correct K ?_
+- _Which types of anomaly can we detect on a network ?_
+- _Which patterns are often used by attackers to exploit flaws ?_
+- _What is the distribution of attacks on each protocol (TCP, UDP, ICMP...) ?_
+	- _By which service (port) were they carried out ?_
+	- _What type of attacks are they?_
+	- _What was the final purpose of the attack ?_
+	- _..._
 
 ### 4. Algorithms you applied
 
