@@ -136,10 +136,15 @@ KMeansModel provides a *computeCost* method that calculates the sum of the squar
 
 As a first test, we chose to make the value of k evolve between 20 and 300 with jumps of 10 (i.e. we tested the clustering with k=20, then k=30, k=40, etc).
 
-![clusteringScore0](images/clusteringScore0.png)
-![clusteringScore1](images/clusteringScore1.png)
+![clusteringScore0](images/Qb-1-clusteringScore0.png)
+![clusteringScore1](images/Qb-1-clusteringScore1.png)
 
 With these two evaluation methods, we can see that a good value for k seems to be between 200 and 280. We decide to run the process again with k evolving between 200 and 280 with jumps of 5.
+
+*2) k from 200 to 280, jumps of 5*
+
+![clusteringScore0](images/Qb-2-clusteringScore0.png)
+![clusteringScore1](images/Qb-2-clusteringScore1.png)
 
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result

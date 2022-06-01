@@ -150,8 +150,12 @@ object RunKMeans{
     val numericOnly = data.drop("protocol_type", "service", "flag").cache()
     // (20 to 300 by 10).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
     // (20 to 300 by 10).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
-    (200 to 280 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
-    (200 to 280 by 5).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
+    // (200 to 280 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+    // (200 to 280 by 5).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
+
+    (260 to 320 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+    (260 to 320 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+
     numericOnly.unpersist()
   }
 
