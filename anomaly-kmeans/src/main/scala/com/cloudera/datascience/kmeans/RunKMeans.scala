@@ -18,6 +18,8 @@ object RunKMeans{
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().config("spark.master", "local[*]").getOrCreate()
 
+    spark.sparkContext.setLogLevel("WARN") // Turn off verbose logging
+
     val data = spark.read.
       option("inferSchema", true).
       option("header", false).
@@ -40,12 +42,14 @@ object RunKMeans{
 
     data.cache()
 
-    clusteringTake0(data)
-    clusteringTake1(data)
-    clusteringTake2(data)
-    clusteringTake3(data)
-    clusteringTake4(data)
-    buildAnomalyDetector(data)
+//    clusteringTake0(data)
+//    clusteringTake1(data)
+//    clusteringTake2(data)
+//    clusteringTake3(data)
+//    clusteringTake4(data)
+//    buildAnomalyDetector(data)
+
+    clusteringTake1Optimized(data)
 
     data.unpersist()
   }
@@ -136,6 +140,18 @@ object RunKMeans{
     val numericOnly = data.drop("protocol_type", "service", "flag").cache()
     (20 to 100 by 20).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
     (20 to 100 by 20).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
+    numericOnly.unpersist()
+  }
+
+  def clusteringTake1Optimized(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    val numericOnly = data.drop("protocol_type", "service", "flag").cache()
+    // (20 to 300 by 10).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+    // (20 to 300 by 10).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
+    (200 to 280 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+    (200 to 280 by 5).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
     numericOnly.unpersist()
   }
 

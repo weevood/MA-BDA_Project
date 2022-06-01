@@ -73,7 +73,7 @@ For each network connection, the data set contains the **42** following characte
 | 41 | dst\_host\_srv\_rerror\_rate | continuous | 0.00 |
 | 42 | label | string | normal |
 
-The label value, given in the last field, can be one of the following : *back, buffer\_overflow, ftp_write, guess_passwd, imap, ipsweep, land, loadmodule, multihop, neptune, nmap, normal, perl, phf, pod, portsweep, rootkit, satan, smurf, spy, teardrop, warezclient, warezmaster*. In the dataset, most connections are labeled *normal*.
+The label value, given in the last field, can be one of the following (23 possibilities) : *back, buffer\_overflow, ftp_write, guess_passwd, imap, ipsweep, land, loadmodule, multihop, neptune, nmap, normal, perl, phf, pod, portsweep, rootkit, satan, smurf, spy, teardrop, warezclient, warezmaster*. In the dataset, most connections are labeled *normal*.
 
 #### Attacks main categories
 
@@ -126,6 +126,20 @@ The three analytical questions results, which we had to develop and answer using
 #### b) How to find the optimal value of the hyperparameter K of the K-means clustering ?
 ##### Result
 ##### Development
+
+For this question, we want to know how many clusters are appropriate for this data set. As there are 23 possible distinct label values for classification, it seems that k must be at least 23. If the value of k chosen is equal to the number of data points, each point will be its own cluster. The value of k must therefore be between 23 and 4.9 million, this leaves us with a considerable choice of values !
+
+A clustering is considered good if each data point is close to its nearest centroid. The Euclidean distance can be used to define this distance.
+KMeansModel provides a *computeCost* method that calculates the sum of the squared distances and can be used to define the score of a cluster.
+
+*1) k from 20 to 300, jumps of 10*
+
+As a first test, we chose to make the value of k evolve between 20 and 300 with jumps of 10 (i.e. we tested the clustering with k=20, then k=30, k=40, etc).
+
+![clusteringScore0](images/clusteringScore0.png)
+![clusteringScore1](images/clusteringScore1.png)
+
+With these two evaluation methods, we can see that a good value for k seems to be between 200 and 280. We decide to run the process again with k evolving between 200 and 280 with jumps of 5.
 
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result
