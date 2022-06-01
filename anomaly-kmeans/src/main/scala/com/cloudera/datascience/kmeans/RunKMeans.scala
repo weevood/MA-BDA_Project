@@ -42,14 +42,15 @@ object RunKMeans{
 
     data.cache()
 
-//    clusteringTake0(data)
-//    clusteringTake1(data)
-//    clusteringTake2(data)
-//    clusteringTake3(data)
-//    clusteringTake4(data)
-//    buildAnomalyDetector(data)
+    // clusteringTake0(data)
+    // clusteringTake1(data)
+    // clusteringTake2(data)
+    // clusteringTake3(data)
+    // clusteringTake4(data)
+    // buildAnomalyDetector(data)
 
-    clusteringTake1Optimized(data)
+    // clusteringTake1Customized(data)
+    clusteringTake2Customized(data)
 
     data.unpersist()
   }
@@ -143,18 +144,15 @@ object RunKMeans{
     numericOnly.unpersist()
   }
 
-  def clusteringTake1Optimized(data: DataFrame): Unit = {
+  def clusteringTake1Customized(data: DataFrame): Unit = {
     val spark = data.sparkSession
     import spark.implicits._
 
     val numericOnly = data.drop("protocol_type", "service", "flag").cache()
     // (20 to 300 by 10).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
     // (20 to 300 by 10).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
-    // (200 to 280 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
-    // (200 to 280 by 5).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
-
-    (260 to 320 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
-    (260 to 320 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+    (200 to 280 by 5).map(k => (k, clusteringScore0(numericOnly, k))).foreach(println)
+    (200 to 280 by 5).map(k => (k, clusteringScore1(numericOnly, k))).foreach(println)
 
     numericOnly.unpersist()
   }
@@ -199,6 +197,16 @@ object RunKMeans{
     numericOnly.unpersist()
   }
 
+  def clusteringTake2Customized(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    val numericOnly = data.drop("protocol_type", "service", "flag").cache()
+    // (20 to 300 by 10).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
+    (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
+    (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
+    numericOnly.unpersist()
+  }
   // Clustering, Take 3
 
   def oneHotPipeline(inputCol: String): (Pipeline, String) = {
