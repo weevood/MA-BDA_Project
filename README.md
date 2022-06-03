@@ -245,6 +245,6 @@ With this normalisation, the elbow seems to be around 160.
 
 ## Sources
 
-- Chapter 5 (Anomaly Detection in Network Trafc with K-means Clustering) of Advanced Analytics with Spark by Sean Owen
-- http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html
-- https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system
+- [Chapter 5 (Anomaly Detection in Network Trafc with K-means Clustering) of Advanced Analytics with Spark by Sean Owen](Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pdf)
+- [http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html)
+- [https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system](https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system)
