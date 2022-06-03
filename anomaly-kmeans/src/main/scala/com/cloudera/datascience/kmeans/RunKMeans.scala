@@ -222,6 +222,7 @@ object RunKMeans{
     (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
     numericOnly.unpersist()
   }
+
   // Clustering, Take 3
 
   def oneHotPipeline(inputCol: String): (Pipeline, String) = {

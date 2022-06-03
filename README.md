@@ -178,7 +178,7 @@ KMeansModel provides a *computeCost* method that calculates the sum of the squar
 
 ###### clusteringScore0
 
-**TODO: Explain whats is clusteringScore0**
+For this first grouping, we ignore non-numerical features and try to place each data point near its nearest centroid with Euclidean distance. To do this, *KMeansModel* provides us with the `computeCost()` method which can be used to compute the mean squared distance.
 
 As a first test, we chose to make the value of k evolve between 20 and 300 with jumps of 10 (i.e. we tested the clustering with k=20, then k=30, k=40, etc).
 
@@ -195,7 +195,7 @@ As we see again, the score decreases as k increases and the best score value for
 | *k from 200 to 320, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore0-3.png) |
 |:---:|
 
-Not surprisingly, the best score is now obtained with k = 320.
+Not surprisingly, the best score is now obtained with k = 320. In view of the results, this method will not be sufficient to determine the best value of k.
 
 ###### clusteringScore1
 
