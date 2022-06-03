@@ -86,6 +86,8 @@ The various attacks can be divided into four main categories:
 
 ### 2. Description of the features used and any pre-processing to extract additional features
 
+On this dataset, the features extraction was already done for us. We know that there are already 38 numeric features that we can exploit.
+
 #### Labels distribution 
 
 First, we want to know the distribution of labels on the data and how many data there are for each label. To do this with *Spark*, you simply group the data by "label", order them and display them. In addition, we calculate the percentage distribution of each label on the dataset.
@@ -124,9 +126,11 @@ data.select("label").groupBy("label").count().orderBy($"count".desc)
 +----------------+-------+----------+
 ```
 
-We can indeed confirm that there are 23 possible labels. The most frequent labels on our data, by far, are : _smurf (~57%)_ and _neptune (~22%)_. Interestingly, the connections identified as *normal*, which are not anomalies, represent just under 20% of our dataset. All other labels are very poorly represented.
+We can indeed confirm that there are 23 possible labels. The most frequent labels on our data, by far, are : _smurf (~57%)_ and _neptune (~22%)_. Interestingly, the connections identified as *normal*, which are not anomalies, represent just under 20% of our dataset. All other labels are very poorly represented (less than 1%).
 
 #### Non-numeric features
+
+We have three columns (in addition to the labels) that contains non-numeric values : *protocol_type*, *service*, et *flag*. In the initial stages, these features will not be explored.
 
 ### 3. Questions for which you hope to get an answer from the analysis
 
