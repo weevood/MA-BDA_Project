@@ -19,6 +19,7 @@
 
 # Zeppelin ignored files
 **/ZeppelinRemoteNotebooks/
+
+Documentation/~$Plots.xlsx
 anomaly-kmeans/kddcup.data
-
-
+anomaly-kmeans/data/kddcup.data
