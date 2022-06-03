@@ -195,28 +195,42 @@ As we see again, the score decreases as k increases and the best score value for
 | *k from 200 to 320, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore0-3.png) |
 |:---:|
 
-Not surprisingly, the best score is now obtained with k = 320. In view of the results, this method will not be sufficient to determine the best value of k.
+Not surprisingly, the best score is now obtained with k = 320. In view of the results, this method will not be sufficient to determine the best value of k. It is therefore necessary to make some improvements.
 
 ###### clusteringScore1
 
-**TODO: Explain whats is clusteringScore1 and improvements (setMaxIter, setTol)**
+To improve the classification, we can run the iteration for a longer time via the `setTol()` method. This method controls the minimum significant amount of centroid movement. It is also possible to increase the maximum number of iterations with the `setMaxIter()` method which will prevent the algorithm from stopping too soon.
 
-Here again, we chose to make the value of k evolve between 20 and 300 with jumps of 10 to see first results.
+Here again, we chose to make the value of k evolve between 20 and 300 with jumps of 10 to see first results. We increase the max iteration from default value 20 to 40 and decrease the tolerance value from default 1.0e-4 to 1.0e-5.
+
+The aim is to find the "elbow" in the graph beyond which the increase in k stops reducing the score significantly.
 
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore0](images/Qb-clusteringScore1-1.png) |
 |:---:|
 
-| *k from 200 to 280, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore1-2.png) |
+| *k from 35 to 175, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore1-2.png) |
 |:---:|
+
+With this max iteration and tolerance values, the elbow seems to be around 120.
+
+| *k from 200 to 280, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore1-3.png) |
+|:---:|
+
+If we try with largers k-values, we see a kind of anarchy and no "elbow" at all!
 
 ###### clusteringScore2
 
-**TODO: Explain whats is clusteringScore2 and improvements**
+To further improve our results and find the right value of k we can normalise the different characteristics. MLlib provides the `StandardScale` class which allows you to easily perform these standarisations.
 
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore0](images/Qb-clusteringScore2-1.png) |
 |:---:|
 
-| *k from 220 to 320, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore2-2.png) |
+With this normalisation, the elbow seems to be around 160.
+
+| *k from 20 to 200, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore2-2.png) |
+|:---:|
+
+| *k from 220 to 320, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore2-3.png) |
 |:---:|
 
 ###### clusteringScore3
