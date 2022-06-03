@@ -259,6 +259,9 @@ After this standardisation, it would be nice to add the non-numerical characteri
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore3](images/Qb-clusteringScore3-1.png) |
 |:---:|
 
+| *k from 100 to 240, jumps of 5*<br> ![clusteringScore3](images/Qb-clusteringScore3-2.png) |
+|:---:|
+
 ###### Entropy - `clusteringScore4`
 
 Finally, to achieve good clustering, we would like to have clusters whose label collections are homogeneous and therefore have low entropy. A weighted average of the entropy can therefore be **used as a new score** to define the optimal value of k. 
@@ -275,14 +278,46 @@ In this way, it is possible to search for a local minimum value for k because th
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore4](images/Qb-clusteringScore4-1.png) |
 |:---:|
 
+| *k from 140 to 220, jumps of 5*<br> ![clusteringScore4](images/Qb-clusteringScore4-2.png) |
+|:---:|
+
+| *k from 160 to 200, jumps of 1*<br> ![clusteringScore4](images/Qb-clusteringScore4-2.png) |
+|:---:|
+
+###### Clustering - `fitPipeline4`
+
+*k = 180*
+
+```scala
+```
+
+##### Improvements
+
+###### Cosine distance measure - `clusteringScore5`
+
+As we have seen, the K-means algorithm requires a notion of distance between data points. So far, we have used the simple Euclidean distance to measure the distance between data points. There is another distance function supported by Spark MLlib: The Cosine distance measure.
+ 
+Cosine similarity is a measure of similarity between two non-zero vectors in an inner product space that measures the cosine of the angle between them. **It is therefore a judgment on orientation and not on magnitude**. Two vectors with the same orientation have a cosine similarity of 1, two vectors oriented at 90° to each other have a similarity of 0, and two diametrically opposed vectors have a similarity of -1; and this independent of their magnitude.
+
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore4](images/Qb-clusteringScore5-1.png) |
+|:---:|
+
+###### Silhouette coefficient - `clusteringScore6`
+
+Another measure attempting to assess not only the proximity of points within a cluster, but also the proximity of points to other clusters can be implemented. The *Silhouette coefficient* is one such measure, and we have carried out tests with it.
+
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result
 ##### Development
 
 ### 8. Possible future enhancements
 
+To improve clustering and obtain even better results on the classification of these anomalies, various other models could be applied instead of simple *K-means clustering*. For example, a *Gaussian mixture model* or *DBSCAN* could capture more subtle relationships between data points and cluster centres. Or a neural network with different hidden layers.
+
 ## Sources
 
 - [Chapter 5 (Anomaly Detection in Network Trafc with K-means Clustering) of Advanced Analytics with Spark by Sean Owen](Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pdf)
-- [http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html)
-- [https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system](https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system)
+- [kdd.ics.uci.edu/databases/kddcup99/kddcup99.html](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html)
+- [kaggle.com/code/abhaymudgal/intrusion-detection-system](https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system)
+- [spark.apache.org/docs/latest/ml-clustering.html#k-means](https://spark.apache.org/docs/latest/ml-clustering.html#k-means)
+- [spark.apache.org/docs/latest/api/scala/org/apache/spark/ml/clustering/KMeans.html](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/ml/clustering/KMeans.html)
