@@ -53,7 +53,9 @@ object RunKMeans{
     // buildAnomalyDetector(data)
 
     // clusteringTake1Customized(data)
-    clusteringTake2Customized(data)
+    // clusteringTake2Customized(data)
+    clusteringTake3Customized(data)
+    // clusteringTake4Customized(data)
 
     data.unpersist()
   }
@@ -218,10 +220,9 @@ object RunKMeans{
     import spark.implicits._
 
     val numericOnly = data.drop("protocol_type", "service", "flag").cache()
-    // (20 to 300 by 10).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
-    // (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
-    // (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
-    (20 to 200 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
+    (20 to 300 by 10).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
+    (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
+    (220 to 320 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
     (20 to 200 by 5).map(k => (k, clusteringScore2(numericOnly, k))).foreach(println)
     numericOnly.unpersist()
   }
@@ -282,6 +283,13 @@ object RunKMeans{
     import spark.implicits._
 
     (60 to 270 by 30).map(k => (k, clusteringScore3(data, k))).foreach(println)
+  }
+
+  def clusteringTake3Customized(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    (20 to 300 by 10).map(k => (k, clusteringScore3(data, k))).foreach(println)
   }
 
   // Clustering, Take 4
@@ -358,6 +366,20 @@ object RunKMeans{
     import spark.implicits._
 
     (60 to 270 by 30).map(k => (k, clusteringScore4(data, k))).foreach(println)
+
+    val pipelineModel = fitPipeline4(data, 180)
+    val countByClusterLabel = pipelineModel.transform(data).
+      select("cluster", "label").
+      groupBy("cluster", "label").count().
+      orderBy("cluster", "label")
+    countByClusterLabel.show()
+  }
+
+  def clusteringTake4Customized(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    (20 to 300 by 10).map(k => (k, clusteringScore4(data, k))).foreach(println)
 
     val pipelineModel = fitPipeline4(data, 180)
     val countByClusterLabel = pipelineModel.transform(data).

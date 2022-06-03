@@ -130,7 +130,22 @@ We can indeed confirm that there are 23 possible labels. The most frequent label
 
 #### Non-numeric features
 
-We have three columns (in addition to the labels) that contains non-numeric values : *protocol_type*, *service*, et *flag*. In the initial stages, these features will not be explored.
+We have three columns (in addition to the labels) that contains non-numeric values : *protocol_type*, *service*, and *flag*. In the initial stages, these features will not be explored. These non-numeric features can be represented using "one- hot encoding", which can then be considered as numeric dimensions.
+
+**Example for the *protocol_type* column**
+
+As there is three possible values for this column (*TCP*, *UDP* or *ICMP*), these three dimension can be represent by one value (x, x, x). Of these three values only one can be set to 
+1, the other values are set to 0. 
+
+We can see as a table of *protocol_type* with only one enable dimension. Example for *UDP* :
+
+| TCP | UDP | ICMP |
+|:---:|:---:|:----:|
+|  0  |  1  |  0   |
+
+If we want to represent the *TCP* value of the characteristic, we encode: 1,0,0. If you want to represent the *UDP* value of the characteristic, you will encode: 0,1,0. And if you want to represent the *ICMP* value of the characteristic, you should encode: 0,0,1.
+
+This one-hot encoding transformation can also be used for the features *service*, and *flag*.
 
 ### 3. Questions for which you hope to get an answer from the analysis
 
@@ -176,7 +191,7 @@ For this question, we want to know how many clusters are appropriate for this da
 A clustering is considered good if each data point is close to its nearest centroid. The Euclidean distance can be used to define this distance.
 KMeansModel provides a *computeCost* method that calculates the sum of the squared distances and can be used to define the score of a cluster.
 
-###### clusteringScore0
+###### The beginning - `clusteringScore0`
 
 For this first grouping, we ignore non-numerical features and try to place each data point near its nearest centroid with Euclidean distance. To do this, *KMeansModel* provides us with the `computeCost()` method which can be used to compute the mean squared distance.
 
@@ -197,7 +212,7 @@ As we see again, the score decreases as k increases and the best score value for
 
 Not surprisingly, the best score is now obtained with k = 320. In view of the results, this method will not be sufficient to determine the best value of k. It is therefore necessary to make some improvements.
 
-###### clusteringScore1
+###### Max iteration and tolerance - `clusteringScore1`
 
 To improve the classification, we can run the iteration for a longer time via the `setTol()` method. This method controls the minimum significant amount of centroid movement. It is also possible to increase the maximum number of iterations with the `setMaxIter()` method which will prevent the algorithm from stopping too soon.
 
@@ -205,37 +220,60 @@ Here again, we chose to make the value of k evolve between 20 and 300 with jumps
 
 The aim is to find the "elbow" in the graph beyond which the increase in k stops reducing the score significantly.
 
-| *k from 20 to 300, jumps of 10*<br> ![clusteringScore0](images/Qb-clusteringScore1-1.png) |
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore1](images/Qb-clusteringScore1-1.png) |
 |:---:|
 
-| *k from 35 to 175, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore1-2.png) |
+| *k from 35 to 175, jumps of 5*<br> ![clusteringScore1](images/Qb-clusteringScore1-2.png) |
 |:---:|
 
 With this max iteration and tolerance values, the elbow seems to be around 120.
 
-| *k from 200 to 280, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore1-3.png) |
+| *k from 200 to 280, jumps of 5*<br> ![clusteringScore1](images/Qb-clusteringScore1-3.png) |
 |:---:|
 
 If we try with largers k-values, we see a kind of anarchy and no "elbow" at all!
 
-###### clusteringScore2
+###### Normalization - `clusteringScore2`
 
 To further improve our results and find the right value of k we can normalise the different characteristics. MLlib provides the `StandardScale` class which allows you to easily perform these standarisations.
 
-| *k from 20 to 300, jumps of 10*<br> ![clusteringScore0](images/Qb-clusteringScore2-1.png) |
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore2](images/Qb-clusteringScore2-1.png) |
 |:---:|
 
 With this normalisation, the elbow seems to be around 160.
 
-| *k from 20 to 200, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore2-2.png) |
+| *k from 20 to 200, jumps of 5*<br> ![clusteringScore2](images/Qb-clusteringScore2-2.png) |
 |:---:|
 
-| *k from 220 to 320, jumps of 5*<br> ![clusteringScore0](images/Qb-clusteringScore2-3.png) |
+If we decrease the jumps, the elbow seems now to be between 120 and 140.
+
+| *k from 220 to 320, jumps of 5*<br> ![clusteringScore2](images/Qb-clusteringScore2-3.png) |
 |:---:|
 
-###### clusteringScore3
+With larger k-values, we do not see any other "elbow" emerging.
 
-###### clusteringScore4
+###### Non-numeric features - `clusteringScore3`
+
+After this standardisation, it would be nice to add the non-numerical characteristics to improve the clustering. The MLlib library provides a `OneHotEncoder` class allowing easily the implementation of one-hot encoding. Therefore, the clustering will use all available input features.
+
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore3](images/Qb-clusteringScore3-1.png) |
+|:---:|
+
+###### Entropy - `clusteringScore4`
+
+Finally, to achieve good clustering, we would like to have clusters whose label collections are homogeneous and therefore have low entropy. A weighted average of the entropy can therefore be **used as a new score** to define the optimal value of k. 
+
+To do so, the following 4 steps are applied:
+
+1. Predict the cluster for each data item
+2. Extract collections of labels, by cluster
+3. Count the labels in the collections
+4. Average entropy weighted by cluster size
+
+In this way, it is possible to search for a local minimum value for k because the entropy does not necessarily decrease when k increases.
+
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore4](images/Qb-clusteringScore4-1.png) |
+|:---:|
 
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result
