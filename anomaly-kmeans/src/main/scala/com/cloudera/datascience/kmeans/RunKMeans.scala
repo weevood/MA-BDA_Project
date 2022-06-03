@@ -6,11 +6,12 @@
 
 package com.cloudera.datascience.kmeans
 
-import org.apache.spark.ml.{PipelineModel, Pipeline}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
-import org.apache.spark.ml.feature.{OneHotEncoder, VectorAssembler, StringIndexer, StandardScaler}
+import org.apache.spark.ml.feature.{OneHotEncoder, StandardScaler, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.linalg.{Vector, Vectors}
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, SparkSession, functions}
+
 import scala.util.Random
 
 object RunKMeans{
@@ -42,6 +43,8 @@ object RunKMeans{
 
     data.cache()
 
+    // labelsDistribution(data)
+
     // clusteringTake0(data)
     // clusteringTake1(data)
     // clusteringTake2(data)
@@ -50,9 +53,21 @@ object RunKMeans{
     // buildAnomalyDetector(data)
 
     // clusteringTake1Customized(data)
-    clusteringTake2Customized(data)
+    // clusteringTake2Customized(data)
 
     data.unpersist()
+  }
+
+  // Features extraction and pre-processing
+
+  def labelsDistribution(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+    import functions.round
+
+    data.select("label").groupBy("label").count().orderBy($"count".desc)
+      .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
+      .show(100)
   }
 
   // Clustering, Take 0

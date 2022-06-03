@@ -86,7 +86,47 @@ The various attacks can be divided into four main categories:
 
 ### 2. Description of the features used and any pre-processing to extract additional features
 
-📝 TODO
+#### Labels distribution 
+
+First, we want to know the distribution of labels on the data and how many data there are for each label. To do this with *Spark*, you simply group the data by "label", order them and display them. In addition, we calculate the percentage distribution of each label on the dataset.
+
+```spark
+data.select("label").groupBy("label").count().orderBy($"count".desc)
+	 .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
+	 .show(100)
+
++----------------+-------+----------+
+|           label|  count|percentage|
++----------------+-------+----------+
+|          smurf.|2807886|     57.32|
+|        neptune.|1072017|     21.88|
+|         normal.| 972781|     19.86|
+|          satan.|  15892|      0.32|
+|        ipsweep.|  12481|      0.25|
+|      portsweep.|  10413|      0.21|
+|           nmap.|   2316|      0.05|
+|           back.|   2203|      0.04|
+|    warezclient.|   1020|      0.02|
+|       teardrop.|    979|      0.02|
+|            pod.|    264|      0.01|
+|   guess_passwd.|     53|       0.0|
+|buffer_overflow.|     30|       0.0|
+|           land.|     21|       0.0|
+|    warezmaster.|     20|       0.0|
+|           imap.|     12|       0.0|
+|        rootkit.|     10|       0.0|
+|     loadmodule.|      9|       0.0|
+|      ftp_write.|      8|       0.0|
+|       multihop.|      7|       0.0|
+|            phf.|      4|       0.0|
+|           perl.|      3|       0.0|
+|            spy.|      2|       0.0|
++----------------+-------+----------+
+```
+
+We can indeed confirm that there are 23 possible labels. The most frequent labels on our data, by far, are : _smurf (~57%)_ and _neptune (~22%)_. Interestingly, the connections identified as *normal*, which are not anomalies, represent just under 20% of our dataset. All other labels are very poorly represented.
+
+#### Non-numeric features
 
 ### 3. Questions for which you hope to get an answer from the analysis
 
