@@ -290,9 +290,553 @@ In this way, it is possible to search for a local minimum value for k because th
 
 ###### Clustering - `fitPipeline4`
 
-*k = 180*
-
 ```scala
+k = 160
++-------+------------+-------+
+|cluster|       label|  count|
++-------+------------+-------+
+|      0|      smurf.|2637630|
+|      1|    ipsweep.|     13|
+|      1|    neptune.|   1042|
+|      1|  portsweep.|     13|
+|      1|      satan.|      3|
+|      2|    neptune.|   1066|
+|      2|  portsweep.|      9|
+|      2|      satan.|      2|
+|      3|       back.|      5|
+|      3|     normal.|    153|
+|      3|      satan.|      2|
+|      3|warezclient.|      1|
+|      4|    neptune.|   1038|
+|      4|  portsweep.|     13|
+|      4|      satan.|      3|
+|      5|       back.|    387|
+|      5|     normal.| 210288|
+|      6|    neptune.|   1030|
+|      6|  portsweep.|      6|
+|      6|      satan.|      1|
++-------+------------+-------+
+
+k = 161
++-------+----------+------+
+|cluster|     label| count|
++-------+----------+------+
+|      0|   normal.|192689|
+|      1|  ipsweep.|    11|
+|      1|  neptune.|    93|
+|      1|   normal.| 49982|
+|      1|portsweep.|     2|
+|      1|    satan.|     6|
+|      2|  neptune.|  1043|
+|      2|portsweep.|     8|
+|      2|    satan.|     3|
+|      3|    satan.|     2|
+|      4|  ipsweep.|    13|
+|      4|  neptune.|  1044|
+|      4|portsweep.|    14|
+|      4|    satan.|     3|
+|      5|  neptune.|  1041|
+|      5|portsweep.|    10|
+|      5|    satan.|     2|
+|      6|    satan.|     2|
+|      7|  neptune.|   200|
+|      7|portsweep.|     9|
++-------+----------+------+
+
+k = 162
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.| 235584|
+|      0|portsweep.|     13|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3384|
+|      1|      pod.|      7|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807851|
+|      2|  neptune.|    842|
+|      3|  ipsweep.|     13|
+|      3|  neptune.|   1044|
+|      3|portsweep.|     14|
+|      3|    satan.|      3|
+|      4| teardrop.|    259|
+|      5|  neptune.|   1039|
+|      5|portsweep.|     10|
+|      5|    satan.|      2|
+|      6|    satan.|      2|
+|      7|  neptune.|   1030|
++-------+----------+-------+
+
+k = 163
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|portsweep.|   1564|
+|      0|    satan.|  12077|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3384|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807852|
+|      2|  neptune.| 365118|
+|      2|portsweep.|    120|
+|      3|  neptune.|    827|
+|      3|portsweep.|      5|
+|      3|    satan.|      6|
+|      4|  neptune.|   1716|
+|      4|   normal.|      5|
+|      4|portsweep.|      1|
+|      4|    satan.|      4|
+|      5|  neptune.|   1040|
+|      5|portsweep.|      7|
+|      5|    satan.|      2|
++-------+----------+-------+
+
+k = 164
++-------+----------+------+
+|cluster|     label| count|
++-------+----------+------+
+|      0|     back.|  1211|
+|      0|   normal.|202386|
+|      0|portsweep.|     1|
+|      1|  neptune.|  1011|
+|      1|     nmap.|     1|
+|      1|portsweep.|     7|
+|      1|    satan.|     2|
+|      2|  neptune.|  1066|
+|      2|portsweep.|     9|
+|      2|    satan.|     2|
+|      3|   normal.|   348|
+|      4|  ipsweep.|    12|
+|      4|  neptune.|   840|
+|      4|   normal.|   503|
+|      4|portsweep.|     6|
+|      4|    satan.|     3|
+|      5|  ipsweep.|    13|
+|      5|  neptune.|  1036|
+|      5|portsweep.|    13|
+|      5|    satan.|     3|
++-------+----------+------+
+
+k = 165
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.| 364667|
+|      0|portsweep.|    138|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3384|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807852|
+|      2|  neptune.|   1041|
+|      2|portsweep.|      9|
+|      2|    satan.|      2|
+|      3|  neptune.|   1030|
+|      3|portsweep.|      6|
+|      3|    satan.|      1|
+|      4| teardrop.|    970|
+|      5|  neptune.|   1043|
+|      5|portsweep.|      8|
+|      5|    satan.|      6|
+|      6|  neptune.|    846|
+|      6|   normal.|    910|
++-------+----------+-------+
+
+k = 166
++-------+----------------+------+
+|cluster|           label| count|
++-------+----------------+------+
+|      0|           back.|   324|
+|      0|         normal.| 39296|
+|      1|        ipsweep.|  7982|
+|      1|           nmap.|     3|
+|      1|         normal.|     1|
+|      2|        neptune.|821243|
+|      2|      portsweep.|   112|
+|      3|buffer_overflow.|     6|
+|      3|      ftp_write.|     4|
+|      3|        ipsweep.|    13|
+|      3|     loadmodule.|     1|
+|      3|       multihop.|     3|
+|      3|        neptune.|  1794|
+|      3|         normal.| 36287|
+|      3|      portsweep.|     3|
+|      3|        rootkit.|     1|
+|      3|    warezclient.|   702|
+|      3|    warezmaster.|    18|
+|      4|        neptune.|  1033|
+|      4|      portsweep.|     6|
++-------+----------------+------+
+
+k = 167
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|     back.|      3|
+|      0|  neptune.|   1581|
+|      0|   normal.|   1200|
+|      0|portsweep.|     35|
+|      0|    satan.|    146|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3382|
+|      1|      pod.|      5|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807852|
+|      2|  ipsweep.|     13|
+|      2|  neptune.|   1038|
+|      2|portsweep.|     14|
+|      2|    satan.|      3|
+|      3|  neptune.|   1035|
+|      3|portsweep.|      7|
+|      3|    satan.|      2|
+|      4|  neptune.|   1030|
++-------+----------+-------+
+
+k = 168
++-------+----------------+-------+
+|cluster|           label|  count|
++-------+----------------+-------+
+|      0|buffer_overflow.|      6|
+|      0|      ftp_write.|      4|
+|      0|        ipsweep.|     13|
+|      0|     loadmodule.|      1|
+|      0|       multihop.|      3|
+|      0|         normal.|  19776|
+|      0|        rootkit.|      1|
+|      0|    warezclient.|    661|
+|      0|    warezmaster.|     18|
+|      1|         normal.|     67|
+|      1|          smurf.|2807697|
+|      2|        neptune.|   4814|
+|      2|      portsweep.|    134|
+|      2|          satan.|     31|
+|      3|        neptune.|    840|
+|      3|      portsweep.|     11|
+|      3|          satan.|      3|
+|      4|        neptune.|   1036|
+|      4|      portsweep.|      6|
+|      4|          satan.|      1|
++-------+----------------+-------+
+
+k = 169
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|   normal.|  37238|
+|      0|    satan.|      8|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3376|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807851|
+|      2|  neptune.|   1044|
+|      2|portsweep.|      9|
+|      2|    satan.|      2|
+|      3|  neptune.|   1040|
+|      3|portsweep.|      7|
+|      3|    satan.|      2|
+|      4|  neptune.|   1038|
+|      4|portsweep.|     13|
+|      4|    satan.|      3|
+|      5|  ipsweep.|     13|
+|      5|  neptune.|   1046|
+|      5|   normal.|     38|
++-------+----------+-------+
+
+k = 170
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|     back.|    387|
+|      0|   normal.| 222358|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3386|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807852|
+|      2|   normal.|    129|
+|      2|    satan.|      6|
+|      3|  neptune.|   1040|
+|      3|portsweep.|      7|
+|      3|    satan.|      2|
+|      4|  ipsweep.|     13|
+|      4|  neptune.|   1036|
+|      4|portsweep.|     13|
+|      4|    satan.|      3|
+|      5|  neptune.|   1038|
+|      5|portsweep.|     13|
+|      5|    satan.|      3|
++-------+----------+-------+
+
+k = 171
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|    smurf.|2644225|
+|      1|  neptune.|   1035|
+|      1|portsweep.|      9|
+|      1|    satan.|      2|
+|      2|  neptune.|    841|
+|      2|portsweep.|      1|
+|      3|  ipsweep.|     13|
+|      3|  neptune.|   1044|
+|      3|portsweep.|     14|
+|      3|    satan.|      3|
+|      4|     land.|     21|
+|      4|   normal.|      7|
+|      5|  neptune.|   1038|
+|      5|portsweep.|     13|
+|      5|    satan.|      3|
+|      6|  ipsweep.|     13|
+|      6|  neptune.|   1038|
+|      6|portsweep.|     14|
+|      6|    satan.|      3|
+|      7|  neptune.|   1038|
++-------+----------+-------+
+
+k = 172
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.| 455728|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3384|
+|      1|portsweep.|      2|
+|      1|    satan.|      6|
+|      1|    smurf.|2807855|
+|      2|  neptune.|    832|
+|      2|portsweep.|      5|
+|      2|    satan.|      3|
+|      3|  ipsweep.|     13|
+|      3|  neptune.|   1041|
+|      3|portsweep.|     13|
+|      3|    satan.|      3|
+|      4|  neptune.|   1036|
+|      4|portsweep.|      6|
+|      4|    satan.|      1|
+|      5|  neptune.|   1037|
+|      5|portsweep.|     13|
+|      5|    satan.|      3|
++-------+----------+-------+
+
+k = 173
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.| 354121|
+|      0|portsweep.|      8|
+|      1|  neptune.|      4|
+|      1|   normal.|  22365|
+|      2|     back.|     13|
+|      2|   normal.|  53327|
+|      3|  ipsweep.|     13|
+|      3|  neptune.|   1044|
+|      3|portsweep.|     14|
+|      3|    satan.|      3|
+|      4|   normal.|  30799|
+|      5|    smurf.|2680930|
+|      6|  ipsweep.|      2|
+|      6|  neptune.|   1800|
+|      6|   normal.|    479|
+|      6|portsweep.|      9|
+|      6|    satan.|      2|
+|      7|  neptune.|    200|
+|      7|portsweep.|     12|
+|      7|    satan.|      3|
++-------+----------+-------+
+
+k = 174
++-------+----------+-----+
+|cluster|     label|count|
++-------+----------+-----+
+|      0|     back.|    3|
+|      0|   normal.|62334|
+|      1|     imap.|    4|
+|      1|     nmap.| 1033|
+|      1|   normal.|    2|
+|      2|  neptune.| 1043|
+|      2|portsweep.|    8|
+|      2|    satan.|    6|
+|      3|   normal.|    9|
+|      4|  neptune.| 1030|
+|      4|portsweep.|    7|
+|      4|    satan.|    2|
+|      5|  ipsweep.|   13|
+|      5|  neptune.| 1042|
+|      5|portsweep.|   13|
+|      5|    satan.|    3|
+|      6|  neptune.| 1033|
+|      6|portsweep.|    6|
+|      6|    satan.|    1|
+|      7|  neptune.|  200|
++-------+----------+-----+
+
+k = 175
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.| 456476|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3380|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807852|
+|      2|  neptune.|    843|
+|      2|portsweep.|      5|
+|      2|    satan.|      3|
+|      3|     imap.|      7|
+|      3|  neptune.|   1043|
+|      3|   normal.|      3|
+|      3|portsweep.|      8|
+|      3|    satan.|      2|
+|      4|   normal.|      1|
+|      5|  neptune.|   1037|
+|      5|portsweep.|      9|
+|      5|    satan.|      3|
+|      6|  ipsweep.|     13|
++-------+----------+-------+
+
+k = 176
++-------+----------+------+
+|cluster|     label| count|
++-------+----------+------+
+|      0|  ipsweep.|    40|
+|      0|     nmap.|     6|
+|      0|   normal.|  3434|
+|      0|      pod.|    87|
+|      0|portsweep.|     2|
+|      0|    satan.|    11|
+|      0|    smurf.|126956|
+|      1|   normal.|   148|
+|      2|  neptune.|   837|
+|      2|portsweep.|    11|
+|      2|    satan.|     3|
+|      3|  neptune.|  1042|
+|      3|portsweep.|    14|
+|      3|    satan.|     3|
+|      4|  neptune.|  1030|
+|      4|portsweep.|     7|
+|      4|    satan.|     2|
+|      5|  neptune.|   837|
+|      5|portsweep.|     2|
+|      6|   normal.|     1|
++-------+----------+------+
+
+k = 177
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.|   6261|
+|      0|portsweep.|    134|
+|      1|  ipsweep.|     40|
+|      1|     nmap.|      6|
+|      1|   normal.|   3382|
+|      1|portsweep.|      2|
+|      1|    satan.|      7|
+|      1|    smurf.|2807853|
+|      2|  ipsweep.|     12|
+|      2|  neptune.|    840|
+|      2|   normal.|    503|
+|      2|portsweep.|      6|
+|      2|    satan.|      3|
+|      3|  neptune.|    834|
+|      3|portsweep.|      5|
+|      3|    satan.|      2|
+|      4|ftp_write.|      2|
+|      4|  neptune.|    832|
+|      4|portsweep.|      5|
+|      4|    satan.|      3|
++-------+----------+-------+
+
+k = 178
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  neptune.| 365120|
+|      0|portsweep.|    111|
+|      1|   normal.|     51|
+|      1|    smurf.|2807614|
+|      2|  neptune.|   1030|
+|      2|portsweep.|      6|
+|      2|    satan.|      1|
+|      3|   normal.|     13|
+|      3|portsweep.|     44|
+|      4|  ipsweep.|     13|
+|      4|  neptune.|   1040|
+|      4|   normal.|    504|
+|      4|portsweep.|     10|
+|      4|    satan.|      3|
+|      5|  neptune.|   1041|
+|      5|portsweep.|      9|
+|      5|    satan.|      2|
+|      6|   normal.|      7|
+|      6|      pod.|      5|
+|      7|  ipsweep.|     13|
++-------+----------+-------+
+
+k = 179
++-------+------------+-------+
+|cluster|       label|  count|
++-------+------------+-------+
+|      0|    neptune.| 456163|
+|      1|      smurf.|2680968|
+|      2|    neptune.|   1038|
+|      2|  portsweep.|      9|
+|      2|      satan.|      3|
+|      3|    neptune.|   1036|
+|      3|  portsweep.|      6|
+|      3|      satan.|      1|
+|      4|     normal.|    558|
+|      4|warezclient.|     14|
+|      5|    neptune.|   1038|
+|      5|  portsweep.|     13|
+|      5|      satan.|      3|
+|      6|  portsweep.|      2|
+|      6|      satan.|  12190|
+|      7|    neptune.|    200|
+|      7|  portsweep.|     12|
+|      7|      satan.|      3|
+|      8|       back.|     91|
+|      8|     normal.|      8|
++-------+------------+-------+
+
+k = 180
++-------+----------+-------+
+|cluster|     label|  count|
++-------+----------+-------+
+|      0|  ipsweep.|     13|
+|      0|  neptune.|   1038|
+|      0|portsweep.|     15|
+|      0|    satan.|      3|
+|      1|    smurf.|2680968|
+|      2|portsweep.|   2446|
+|      3|  ipsweep.|     13|
+|      3|  neptune.|   1039|
+|      3|portsweep.|     12|
+|      3|    satan.|     11|
+|      4|  neptune.|   1041|
+|      4|portsweep.|      9|
+|      4|    satan.|      2|
+|      5|  neptune.|   1035|
+|      5|portsweep.|      7|
+|      5|    satan.|      2|
+|      6|   normal.|      3|
+|      7|  ipsweep.|      1|
+|      7|  neptune.|    200|
+|      7|portsweep.|      6|
++-------+----------+-------+
+
 ```
 
 ##### Improvements
