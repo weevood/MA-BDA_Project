@@ -259,8 +259,12 @@ After this standardisation, it would be nice to add the non-numerical characteri
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore3](images/Qb-clusteringScore3-1.png) |
 |:---:|
 
+With this run, we can clearly see an elbow at k = 110, but if we look forward there appears to be another elbow around k = 150.
+
 | *k from 100 to 240, jumps of 5*<br> ![clusteringScore3](images/Qb-clusteringScore3-2.png) |
 |:---:|
+
+On these two second tests, we see more precisely the elbow no longer around 110 or 150, but around k = 185.
 
 ###### Entropy - `clusteringScore4`
 

@@ -55,12 +55,12 @@ object RunKMeans{
 
     // clusteringTake1Customized(data)
     // clusteringTake2Customized(data)
-    clusteringTake3Customized(data)
-    clusteringTake4Customized(data)
+    // clusteringTake3Customized(data)
+    // clusteringTake4Customized(data)
 
-    clusteringFitPipeline(data)
+    // clusteringFitPipeline(data)
 
-    clusteringTake5(data)
+    // clusteringTake5(data)
     clusteringTake6(data)
 
     data.unpersist()
@@ -513,7 +513,11 @@ object RunKMeans{
     // Evaluate clustering by computing Silhouette score
     val evaluator = new ClusteringEvaluator()
 
-    (170 to 190 by 1)
+//    (170 to 190 by 1)
+//      .map(k => (k, fitPipeline5(data, k)))
+//      .foreach(model => println(evaluator.evaluate(model._2.transform(data))))
+
+    (180 to 181 by 1)
       .map(k => (k, fitPipeline5(data, k)))
       .foreach(model => println(evaluator.evaluate(model._2.transform(data))))
   }
