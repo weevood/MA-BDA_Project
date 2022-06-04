@@ -513,11 +513,7 @@ object RunKMeans{
     // Evaluate clustering by computing Silhouette score
     val evaluator = new ClusteringEvaluator()
 
-//    (170 to 190 by 1)
-//      .map(k => (k, fitPipeline5(data, k)))
-//      .foreach(model => println(evaluator.evaluate(model._2.transform(data))))
-
-    (180 to 181 by 1)
+    (170 to 190 by 1)
       .map(k => (k, fitPipeline5(data, k)))
       .foreach(model => println(evaluator.evaluate(model._2.transform(data))))
   }

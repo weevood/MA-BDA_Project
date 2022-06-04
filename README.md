@@ -282,8 +282,12 @@ In this way, it is possible to search for a local minimum value for k because th
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore4](images/Qb-clusteringScore4-1.png) |
 |:---:|
 
+With this visualisation, there seems to be a first elbow around k = 160 and a second one around k = 230. 
+
 | *k from 140 to 220, jumps of 5*<br> ![clusteringScore4](images/Qb-clusteringScore4-2.png) |
 |:---:|
+
+If we run on k between 140 to 220 with jumps of 5, no elbow is clearly visible. As the various improvement steps are now applied, we will now vary k by jumps of 1.
 
 | *k from 160 to 200, jumps of 1*<br> ![clusteringScore4](images/Qb-clusteringScore4-3.png) |
 |:---:|
@@ -847,7 +851,17 @@ As we have seen, the K-means algorithm requires a notion of distance between dat
  
 Cosine similarity is a measure of similarity between two non-zero vectors in an inner product space that measures the cosine of the angle between them. **It is therefore a judgment on orientation and not on magnitude**. Two vectors with the same orientation have a cosine similarity of 1, two vectors oriented at 90° to each other have a similarity of 0, and two diametrically opposed vectors have a similarity of -1; and this independent of their magnitude.
 
-| *k from 20 to 300, jumps of 10*<br> ![clusteringScore4](images/Qb-clusteringScore5-1.png) |
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore5](images/Qb-clusteringScore5-1.png) |
+|:---:|
+
+With the *cosine similarity*, we can guess an elbow around k = 200. We are therefore in the same values of k as discover before with the euclidean distance.
+
+| *k from 140 to 220, jumps of 5*<br> ![clusteringScore5](images/Qb-clusteringScore5-2.png) |
+|:---:|
+
+If k is varied from 140 to 220 with jumps of 5, the score obtained by cosine similarity decreases as k increases.
+
+| *k from 160 to 200, jumps of 1*<br> ![clusteringScore5](images/Qb-clusteringScore5-3.png) |
 |:---:|
 
 ###### Silhouette coefficient - `clusteringScore6`
