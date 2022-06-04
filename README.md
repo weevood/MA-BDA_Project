@@ -285,7 +285,7 @@ In this way, it is possible to search for a local minimum value for k because th
 | *k from 140 to 220, jumps of 5*<br> ![clusteringScore4](images/Qb-clusteringScore4-2.png) |
 |:---:|
 
-| *k from 160 to 200, jumps of 1*<br> ![clusteringScore4](images/Qb-clusteringScore4-2.png) |
+| *k from 160 to 200, jumps of 1*<br> ![clusteringScore4](images/Qb-clusteringScore4-3.png) |
 |:---:|
 
 ###### Clustering - `fitPipeline4`
