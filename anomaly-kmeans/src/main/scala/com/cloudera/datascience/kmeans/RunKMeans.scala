@@ -11,6 +11,7 @@ import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
 import org.apache.spark.ml.evaluation.ClusteringEvaluator
 import org.apache.spark.ml.feature.{OneHotEncoder, StandardScaler, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.linalg.{Vector, Vectors}
+import org.apache.spark.sql.functions.round
 import org.apache.spark.sql.{DataFrame, SparkSession, functions}
 
 import scala.util.Random
@@ -44,6 +45,8 @@ object RunKMeans{
 
     data.cache()
 
+    anomalyCharacteristics(data)
+
     // labelsDistribution(data)
 
     // clusteringTake0(data)
@@ -61,9 +64,20 @@ object RunKMeans{
     // clusteringFitPipeline(data)
 
     // clusteringTake5(data)
-    clusteringTake6(data)
+    // clusteringTake6(data)
+
+    // protocolDistribution(data)
 
     data.unpersist()
+  }
+
+  def anomalyCharacteristics(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+    import functions.round
+
+    data.select("src_bytes","dst_bytes").where("protocol_type == 'tcp'")
+      .groupBy("label").avg("src_bytes","dst_bytes")
   }
 
   // Features extraction and pre-processing
@@ -516,6 +530,17 @@ object RunKMeans{
     (170 to 190 by 1)
       .map(k => (k, fitPipeline5(data, k)))
       .foreach(model => println(evaluator.evaluate(model._2.transform(data))))
+  }
+
+  def protocolDistribution(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    //determine the distribution of request by each protocol
+    data.select("protocol_type","label").where("label != 'normal'").groupBy("protocol_type").count()
+      .orderBy($"count".desc)
+      .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
+      .show(100)
   }
 
 }
