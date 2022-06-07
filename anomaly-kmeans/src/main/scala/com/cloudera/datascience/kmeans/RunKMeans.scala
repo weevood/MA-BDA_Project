@@ -7,7 +7,7 @@
 package com.cloudera.datascience.kmeans
 
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
+import org.apache.spark.ml.clustering.{KMeans, KMeansModel, BisectingKMeans}
 import org.apache.spark.ml.evaluation.ClusteringEvaluator
 import org.apache.spark.ml.feature.{OneHotEncoder, StandardScaler, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.linalg.{Vector, Vectors}
@@ -63,7 +63,8 @@ object RunKMeans{
     // clusteringTake4Customized(data)
     // clusteringFitPipeline(data)
     // clusteringTake5(data)
-    clusteringTake6(data)
+    // clusteringTake6(data)
+    clusteringTake7(data)
 
     // --- Question c)
     // protocolDistribution(data)
@@ -528,12 +529,80 @@ object RunKMeans{
     val evaluator = new ClusteringEvaluator()
 
     for (k <- 20 to 21 by 1) {
-      val model = fitPipeline5(data, k)
+      val model = fitPipeline4(data, k)
       val predictions = model.transform(data)
-      val silhouette = evaluator.evaluate(model.transform(data))
+      val silhouette = evaluator.evaluate(predictions)
       println(s"Silhouette with squared euclidean distance = $silhouette")
     }
 
+  }
+
+  def fitPipeline7(data: DataFrame, k: Int): PipelineModel = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    val (protoTypeEncoder, protoTypeVecCol) = oneHotPipeline("protocol_type")
+    val (serviceEncoder, serviceVecCol) = oneHotPipeline("service")
+    val (flagEncoder, flagVecCol) = oneHotPipeline("flag")
+
+    // Original columns, without label / string columns, but with new vector encoded cols
+    val assembleCols = Set(data.columns: _*) --
+      Seq("label", "protocol_type", "service", "flag") ++
+      Seq(protoTypeVecCol, serviceVecCol, flagVecCol)
+    val assembler = new VectorAssembler().
+      setInputCols(assembleCols.toArray).
+      setOutputCol("featureVector")
+
+    val scaler = new StandardScaler()
+      .setInputCol("featureVector")
+      .setOutputCol("scaledFeatureVector")
+      .setWithStd(true)
+      .setWithMean(false)
+
+    val kmeans = new BisectingKMeans()
+      .setSeed(Random.nextLong())
+      .setK(k)
+      .setPredictionCol("cluster")
+      .setFeaturesCol("scaledFeatureVector")
+      .setMaxIter(40)
+
+    val pipeline = new Pipeline().setStages(
+      Array(protoTypeEncoder, serviceEncoder, flagEncoder, assembler, scaler, kmeans))
+    pipeline.fit(data)
+  }
+
+  def clusteringScore7(data: DataFrame, k: Int): Double = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    val pipelineModel = fitPipeline7(data, k)
+
+    // Predict cluster for each datum
+    val clusterLabel = pipelineModel.transform(data).
+      select("cluster", "label").as[(Int, String)]
+    val weightedClusterEntropy = clusterLabel.
+      // Extract collections of labels, per cluster
+      groupByKey { case (cluster, _) => cluster }.
+      mapGroups { (_, clusterLabels) =>
+        val labels = clusterLabels.map { case (_, label) => label }.toSeq
+        // Count labels in collections
+        val labelCounts = labels.groupBy(identity).values.map(_.size)
+        labels.size * entropy(labelCounts)
+      }.collect()
+
+    // Average entropy weighted by cluster size
+    weightedClusterEntropy.sum / data.count()
+  }
+
+  def clusteringTake7(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    (20 to 300 by 10).map(k => (k, clusteringScore7(data, k))).foreach(println)
+    (140 to 220 by 5).map(k => (k, clusteringScore7(data, k))).foreach(println)
+    (140 to 220 by 5).map(k => (k, clusteringScore7(data, k))).foreach(println)
+    (160 to 200 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
+    (160 to 200 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
   }
 
   def protocolDistribution(data: DataFrame): Unit = {

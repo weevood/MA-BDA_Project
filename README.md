@@ -868,6 +868,8 @@ If k is varied from 140 to 220 with jumps of 5, the score obtained by cosine sim
 
 Another measure attempting to assess not only the proximity of points within a cluster, but also the proximity of points to other clusters can be implemented. The *Silhouette coefficient* is one such measure, and we have carried out tests with it.
 
+###### Bisecting K-means - `clusteringScore7`
+
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result
 ##### Development
