@@ -48,7 +48,7 @@ object RunKMeans{
     // labelsDistribution(data)
 
     // --- Question a)
-    // anomalyCharacteristics(data)
+    anomalyCharacteristics(data)
     // buildAnomalyDetector(data)
 
     // --- Question b)
@@ -64,10 +64,10 @@ object RunKMeans{
     // clusteringFitPipeline(data)
     // clusteringTake5(data)
     // clusteringTake6(data)
-    clusteringTake7(data)
+    // clusteringTake7(data)
 
     // --- Question c)
-    // protocolDistribution(data)
+    protocolDistribution(data)
 
     data.unpersist()
   }
