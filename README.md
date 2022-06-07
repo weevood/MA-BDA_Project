@@ -1,6 +1,7 @@
 # MA-BDA - Anomaly Detection in Network Traffic with K-means Clustering
 
-###### Alt Thibaud, Bueche Lucas | Deadline on Friday 10.06.2022 | [github.com/weevood/MA-BDA_Project](https://github.com/weevood/MA-BDA_Project) | [Presentation slides](/Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx) 
+###### Alt Thibaud, Bueche Lucas | Deadline on Friday 10.06.2022 | 
+###### 🔗 [Documentation](/Documentation/Project-Report.pdf) | 🔗 [Presentation slides](/Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx) | 🔗 [github.com/weevood/MA-BDA_Project](https://github.com/weevood/MA-BDA_Project)
 
 ## Summary
 
