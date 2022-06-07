@@ -16,7 +16,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession, functions}
 
 import scala.util.Random
 
-object RunKMeans{
+object RunKMeans {
 
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().config("spark.master", "local[*]").getOrCreate()
@@ -50,7 +50,7 @@ object RunKMeans{
 
     // --- Question a)
     println("--- anomalyCharacteristics ---")
-    // anomalyCharacteristics(data)
+    anomalyCharacteristics(data)
     println("--- buildAnomalyDetector ---")
     // buildAnomalyDetector(data)
 
@@ -89,24 +89,25 @@ object RunKMeans{
     data.unpersist()
   }
 
-  def anomalyCharacteristics(data: DataFrame): Unit = {
-    val spark = data.sparkSession
-    import spark.implicits._
-    import functions.round
-
-    data.select("src_bytes","dst_bytes").where("protocol_type == 'tcp'")
-      .groupBy("label").avg("src_bytes","dst_bytes")
-  }
-
   // Features extraction and pre-processing
 
   def labelsDistribution(data: DataFrame): Unit = {
     val spark = data.sparkSession
     import spark.implicits._
-    import functions.round
 
-    data.select("label").groupBy("label").count().orderBy($"count".desc)
+    data.select("label")
+      .groupBy("label").count().orderBy($"count".desc)
       .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
+      .show(100)
+  }
+
+  def anomalyCharacteristics(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    data.select("label", "src_bytes", "dst_bytes")
+      .where("protocol_type == 'tcp'")
+      .groupBy("label").avg("src_bytes", "dst_bytes")
       .show(100)
   }
 
@@ -461,7 +462,7 @@ object RunKMeans{
       val cluster = row.getAs[Int]("cluster")
       val vec = row.getAs[Vector]("scaledFeatureVector")
       Vectors.sqdist(centroids(cluster), vec) >= threshold
-    }.select(originalCols.head, originalCols.tail:_*)
+    }.select(originalCols.head, originalCols.tail: _*)
 
     println(anomalies.first())
   }
@@ -627,8 +628,9 @@ object RunKMeans{
     import spark.implicits._
 
     //determine the distribution of request by each protocol
-    data.select("protocol_type","label").where("label != 'normal'").groupBy("protocol_type").count()
-      .orderBy($"count".desc)
+    data.select("protocol_type", "label")
+      .where("label != 'normal'")
+      .groupBy("protocol_type").count().orderBy($"count".desc)
       .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
       .show(100)
   }
