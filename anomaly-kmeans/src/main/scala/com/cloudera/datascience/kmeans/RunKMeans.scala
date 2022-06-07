@@ -6,8 +6,9 @@
 
 package com.cloudera.datascience.kmeans
 
+import breeze.optimize.Tolerance
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.ml.clustering.{KMeans, KMeansModel, BisectingKMeans}
+import org.apache.spark.ml.clustering.{BisectingKMeans, KMeans, KMeansModel}
 import org.apache.spark.ml.evaluation.ClusteringEvaluator
 import org.apache.spark.ml.feature.{OneHotEncoder, StandardScaler, StringIndexer, VectorAssembler}
 import org.apache.spark.ml.linalg.{Vector, Vectors}
@@ -329,8 +330,9 @@ object RunKMeans {
     import spark.implicits._
 
     (20 to 300 by 10).map(k => (k, clusteringScore3(data, k))).foreach(println)
-    // (140 to 220 by 5).map(k => (k, clusteringScore3(data, k))).foreach(println)
     (140 to 220 by 5).map(k => (k, clusteringScore3(data, k))).foreach(println)
+    (100 to 140 by 5).map(k => (k, clusteringScore3(data, k))).foreach(println)
+    (220 to 240 by 5).map(k => (k, clusteringScore3(data, k))).foreach(println)
   }
 
   // Clustering, Take 4
@@ -344,7 +346,7 @@ object RunKMeans {
     }.sum
   }
 
-  def fitPipeline4(data: DataFrame, k: Int): PipelineModel = {
+  def fitPipeline4(data: DataFrame, k: Int, maxIter: Int = 40, tolerance: Double = 1.0e-5): PipelineModel = {
     val spark = data.sparkSession
     import spark.implicits._
 
@@ -371,19 +373,19 @@ object RunKMeans {
       setK(k).
       setPredictionCol("cluster").
       setFeaturesCol("scaledFeatureVector").
-      setMaxIter(40).
-      setTol(1.0e-5)
+      setMaxIter(maxIter).
+      setTol(tolerance)
 
     val pipeline = new Pipeline().setStages(
       Array(protoTypeEncoder, serviceEncoder, flagEncoder, assembler, scaler, kmeans))
     pipeline.fit(data)
   }
 
-  def clusteringScore4(data: DataFrame, k: Int): Double = {
+  def clusteringScore4(data: DataFrame, k: Int, maxIter: Int = 40, tolerance: Double = 1.0e-5): Double = {
     val spark = data.sparkSession
     import spark.implicits._
 
-    val pipelineModel = fitPipeline4(data, k)
+    val pipelineModel = fitPipeline4(data, k, maxIter, tolerance)
 
     // Predict cluster for each datum
     val clusterLabel = pipelineModel.transform(data).
@@ -425,13 +427,15 @@ object RunKMeans {
     (140 to 220 by 5).map(k => (k, clusteringScore4(data, k))).foreach(println)
     (160 to 200 by 1).map(k => (k, clusteringScore4(data, k))).foreach(println)
     (160 to 200 by 1).map(k => (k, clusteringScore4(data, k))).foreach(println)
+    (175 to 195 by 1).map(k => (k, clusteringScore4(data, k, 60, 1.0e-6))).foreach(println)
+    (175 to 195 by 1).map(k => (k, clusteringScore4(data, k, 60, 1.0e-6))).foreach(println)
   }
 
   def clusteringFitPipeline(data: DataFrame): Unit = {
     val spark = data.sparkSession
     import spark.implicits._
 
-    (170 to 190 by 1).map(k => (k, fitPipeline4(data, k))).foreach(model =>
+    (175 to 195 by 1).map(k => (k, fitPipeline4(data, k, 60, 1.0e-6))).foreach(model =>
       model._2.transform(data)
         .select("cluster", "label")
         .groupBy("cluster", "label").count()
