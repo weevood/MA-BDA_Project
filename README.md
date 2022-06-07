@@ -93,7 +93,7 @@ On this dataset, the features extraction was already done for us. We know that t
 
 First, we want to know the distribution of labels on the data and how many data there are for each label. To do this with *Spark*, you simply group the data by "label", order them and display them. In addition, we calculate the percentage distribution of each label on the dataset.
 
-```spark
+```scala
 data.select("label").groupBy("label").count().orderBy($"count".desc)
 	 .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
 	 .show(100)
