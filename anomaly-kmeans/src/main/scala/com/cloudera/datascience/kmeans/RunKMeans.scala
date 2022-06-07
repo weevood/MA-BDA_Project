@@ -45,27 +45,27 @@ object RunKMeans{
 
     data.cache()
 
-    anomalyCharacteristics(data)
-
     // labelsDistribution(data)
 
+    // --- Question a)
+    // anomalyCharacteristics(data)
+    // buildAnomalyDetector(data)
+
+    // --- Question b)
     // clusteringTake0(data)
     // clusteringTake1(data)
     // clusteringTake2(data)
     // clusteringTake3(data)
     // clusteringTake4(data)
-    // buildAnomalyDetector(data)
-
     // clusteringTake1Customized(data)
     // clusteringTake2Customized(data)
     // clusteringTake3Customized(data)
     // clusteringTake4Customized(data)
-
     // clusteringFitPipeline(data)
-
     // clusteringTake5(data)
-    // clusteringTake6(data)
+    clusteringTake6(data)
 
+    // --- Question c)
     // protocolDistribution(data)
 
     data.unpersist()
@@ -527,9 +527,13 @@ object RunKMeans{
     // Evaluate clustering by computing Silhouette score
     val evaluator = new ClusteringEvaluator()
 
-    (170 to 190 by 1)
-      .map(k => (k, fitPipeline5(data, k)))
-      .foreach(model => println(evaluator.evaluate(model._2.transform(data))))
+    for (k <- 20 to 21 by 1) {
+      val model = fitPipeline5(data, k)
+      val predictions = model.transform(data)
+      val silhouette = evaluator.evaluate(model.transform(data))
+      println(s"Silhouette with squared euclidean distance = $silhouette")
+    }
+
   }
 
   def protocolDistribution(data: DataFrame): Unit = {
