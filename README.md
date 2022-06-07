@@ -183,7 +183,7 @@ The three analytical questions results, which we had to develop and answer using
 ##### Development
 
 #### b) How to find the optimal value of the hyperparameter K of the K-means clustering ?
-##### Result
+
 ##### Development
 
 For this question, we want to know how many clusters are appropriate for this data set. As there are 23 possible distinct label values for classification, it seems that k must be at least 23. If the value of k chosen is equal to the number of data points, each point will be its own cluster. The value of k must therefore be between 23 and 4.9 million, this leaves us with a considerable choice of values !
@@ -226,7 +226,7 @@ The aim is to find the "elbow" in the graph beyond which the increase in k stops
 | *k from 35 to 175, jumps of 5*<br> ![clusteringScore1](images/Qb-clusteringScore1-2.png) |
 |:---:|
 
-With this max iteration and tolerance values, the elbow seems to be around 120.
+With this max iteration (40) and tolerance (1.0e-5) values, the elbow seems to be around 120.
 
 | *k from 200 to 280, jumps of 5*<br> ![clusteringScore1](images/Qb-clusteringScore1-3.png) |
 |:---:|
@@ -268,7 +268,7 @@ On these two second tests, we see more precisely the elbow no longer around 110 
 
 ###### Entropy - `clusteringScore4`
 
-Finally, to achieve good clustering, we would like to have clusters whose label collections are homogeneous and therefore have low entropy. A weighted average of the entropy can therefore be **used as a new score** to define the optimal value of k. 
+Finally, to achieve good clustering, we would like to have clusters whose label collections are homogeneous and therefore have low entropy. A weighted average of the entropy can therefore be used as a new score to define the optimal value of k. 
 
 To do so, the following 4 steps are applied:
 
@@ -290,6 +290,11 @@ With this visualisation, there seems to be a first elbow around k = 160 and a se
 If we run on k between 140 to 220 with jumps of 5, no elbow is clearly visible. As the various improvement steps are now applied, we will now vary k by jumps of 1.
 
 | *k from 160 to 200, jumps of 1*<br> ![clusteringScore4](images/Qb-clusteringScore4-3.png) |
+|:---:|
+
+After 3 runs, it is clearly visible that the best score results are obtained when the value of k is around 185. Therefore, we will do a final test, around k = 185, by lowering the tolerance value from 1.0e-5 to 1.0e-6 and increasing the maximum iteration number from 40 to 60.
+
+| *k from 175 to 195, jumps of 1*<br> ![clusteringScore4](images/Qb-clusteringScore4-4.png) |
 |:---:|
 
 ###### Clustering - `fitPipeline4`
@@ -859,30 +864,41 @@ With the *cosine similarity*, we can guess an elbow around k = 200. We are there
 | *k from 140 to 220, jumps of 5*<br> ![clusteringScore5](images/Qb-clusteringScore5-2.png) |
 |:---:|
 
-If k is varied from 140 to 220 with jumps of 5, the score obtained by cosine similarity decreases as k increases.
+If k is varied from 140 to 220 with jumps of 5, the score obtained by cosine similarity decreases as k increases. There are no clear "elbow" in the graph.
 
 | *k from 160 to 200, jumps of 1*<br> ![clusteringScore5](images/Qb-clusteringScore5-3.png) |
 |:---:|
+
+With this evaluation of the distance by the cosine and after 2 runs, the best score is obtained twice with **k = 187**.
 
 ###### Silhouette coefficient - `clusteringScore6`
 
 Another measure attempting to assess not only the proximity of points within a cluster, but also the proximity of points to other clusters can be implemented. The *Silhouette coefficient* is one such measure, and we have carried out tests with it.
 
+**! TODO !**
+
 ###### Bisecting K-means - `clusteringScore7`
 
 The "Bisecting K-means" algorithm is a type of hierarchical clustering using a top-down split approach. All observations start in a cluster, and splits are performed recursively as one moves down the hierarchy. Bisecting K-means will generally produce a different clustering.
 
-We ran the "Bisecting K-means" algorithm with the same parameters as those used in "ClusteringScore4", including entropy and optimisations.
+We ran the "Bisecting K-means" algorithm with the same parameters as those used in *clusteringScore4*, including entropy and optimisations.
 
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore7](images/Qb-clusteringScore7-1.png) |
 |:---:|
 
-| *k from 140 to 220, jumps of 5*<br> ![clusteringScore7](images/Qb-clusteringScore7-2.png) |
-|:---:|
+As these trainings are very time consuming, we lack the time to make more accurate runs with this algorithm. However, the conclusions are again the same, a kink appears at **k = 190**, so we should continue to test with k values around 190.
 
-| *k from 160 to 200, jumps of 1*<br> ![clusteringScore7](images/Qb-clusteringScore7-3.png) |
-|:---:|
+##### Results
 
+| Step | Estimated range value | Best *k* value |
+|:-----|:-------------:|:-------------:|
+| The beginning - `clusteringScore0` | k >= 320 | - |
+| Max iteration and tolerance - `clusteringScore1` | 220 <= k <= 230 | - |
+| Normalization - `clusteringScore2` | 120 <= k <= 140 | - |
+| Non-numeric features - `clusteringScore3` | around k = 185 | - |
+| **Entropy - `clusteringScore4`** | around k = 185 | **k = 18???** |
+| **Cosine distance measure - `clusteringScore5`** | 170 <= k <= 200 | **k = 187** |
+| Bisecting K-means - `clusteringScore7` | around k = 190 | - |
 
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result
