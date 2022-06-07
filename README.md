@@ -870,6 +870,20 @@ Another measure attempting to assess not only the proximity of points within a c
 
 ###### Bisecting K-means - `clusteringScore7`
 
+The "Bisecting K-means" algorithm is a type of hierarchical clustering using a top-down split approach. All observations start in a cluster, and splits are performed recursively as one moves down the hierarchy. Bisecting K-means will generally produce a different clustering.
+
+We ran the "Bisecting K-means" algorithm with the same parameters as those used in "ClusteringScore4", including entropy and optimisations.
+
+| *k from 20 to 300, jumps of 10*<br> ![clusteringScore7](images/Qb-clusteringScore7-1.png) |
+|:---:|
+
+| *k from 140 to 220, jumps of 5*<br> ![clusteringScore7](images/Qb-clusteringScore7-2.png) |
+|:---:|
+
+| *k from 160 to 200, jumps of 1*<br> ![clusteringScore7](images/Qb-clusteringScore7-3.png) |
+|:---:|
+
+
 #### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 ##### Result
 ##### Development
