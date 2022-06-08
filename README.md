@@ -170,28 +170,22 @@ After brainstorming and validation, we have decided to develop the following ana
 	- _What was the final purpose of the attack ?_
 	- _..._
 
-### 4. Algorithms you applied
+### 3.1 What are the characteristics and features that define an anomaly ?
 
-### 5. Optimisations you performed
+#### Algorithms you applied
+#### Optimisations you performed
+#### Your approach to testing and evaluation
+#### Results you obtained
+#### Possible future enhancements
 
-### 6. Your approach to testing and evaluation
-
-### 7. Results you obtained
-
-The three analytical questions results, which we had to develop and answer using the Spark, are available below.
-
-#### a) What are the characteristics and features that define an anomaly ?
-##### Result
-##### Development
-
-#### b) How to find the optimal value of the hyperparameter K of the K-means clustering ?
-
-##### Development
+### 3.2 How to find the optimal value of the hyperparameter K of the K-means clustering ?
 
 For this question, we want to know how many clusters are appropriate for this data set. As there are 23 possible distinct label values for classification, it seems that k must be at least 23. If the value of k chosen is equal to the number of data points, each point will be its own cluster. The value of k must therefore be between 23 and 4.9 million, this leaves us with a considerable choice of values !
 
 A clustering is considered good if each data point is close to its nearest centroid. The Euclidean distance can be used to define this distance.
 KMeansModel provides a *computeCost* method that calculates the sum of the squared distances and can be used to define the score of a cluster.
+
+#### Algorithms you applied
 
 ###### The beginning - `clusteringScore0`
 
@@ -390,7 +384,7 @@ _k = 191_
 +-------+----------+-------+
 ```
 
-##### Improvements
+##### Improvements and optimisations
 
 ###### Cosine distance measure - `clusteringScore5`
 
@@ -430,7 +424,11 @@ We ran the "Bisecting K-means" algorithm with the same parameters as those used 
 
 As these trainings are very time consuming, we lack the time to make more accurate runs with this algorithm. However, the conclusions are again the same, a kink appears at **k = 190**, so we should continue to test with k values around 190.
 
-##### Results
+#### Your approach to testing and evaluation
+
+**! TODO !**
+
+#### Results you obtained
 
 | Step | Estimated range value | Best *k* value |
 |:-----|:-------------:|:-------------:|
@@ -442,15 +440,21 @@ As these trainings are very time consuming, we lack the time to make more accura
 | **Cosine distance measure - `clusteringScore5`** | 170 <= k <= 200 | **k = 187** |
 | Bisecting K-means - `clusteringScore7` | around k = 190 | - |
 
-#### c) What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
-##### Result
-##### Development
-
-### 8. Possible future enhancements
+#### Possible future enhancements
 
 To improve clustering and obtain even better results on the classification of these anomalies, various other models could be applied instead of simple *K-means clustering*. For example, a *Gaussian mixture model* or *DBSCAN* could capture more subtle relationships between data points and cluster centres. Or a neural network with different hidden layers.
 
+### 3.3 What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
+
+#### Algorithms you applied
+#### Optimisations you performed
+#### Your approach to testing and evaluation
+#### Results you obtained
+#### Possible future enhancements
+
 ## Conclusion
+
+**! TODO !**
 
 ## Sources
 
