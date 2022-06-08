@@ -424,6 +424,9 @@ We ran the "Bisecting K-means" algorithm with the same parameters as those used 
 
 As these trainings are very time consuming, we lack the time to make more accurate runs with this algorithm. However, the conclusions are again the same, a kink appears at **k = 190**, so we should continue to test with k values around 190.
 
+| *k from 185 to 195, jumps of 1*<br> ![clusteringScore7](images/Qb-clusteringScore7-2.png) |
+|:---:|
+
 #### Your approach to testing and evaluation
 
 **! TODO !**

@@ -625,6 +625,8 @@ object RunKMeans {
     (140 to 220 by 5).map(k => (k, clusteringScore7(data, k))).foreach(println)
     (160 to 200 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
     (160 to 200 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
+    (185 to 195 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
+
   }
 
   def protocolDistribution(data: DataFrame): Unit = {
