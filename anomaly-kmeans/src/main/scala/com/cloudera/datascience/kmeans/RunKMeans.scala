@@ -118,7 +118,7 @@ object RunKMeans {
     import spark.implicits._
 
     data.select("label", "src_bytes", "dst_bytes")
-      .where("protocol_type == 'tcp'")
+      .where("protocol_type == 'imcp'")
       .groupBy("label").avg("src_bytes", "dst_bytes")
       .show(100)
   }
