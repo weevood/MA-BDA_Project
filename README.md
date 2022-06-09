@@ -598,7 +598,7 @@ For each protocol, we can also see what attack type was the most present
 
 #### IMCP
 
-| *ICMP request Distribution*<br> ![distributionICMP](images/distributionICMP.png) |
+| *ICMP request Distribution*<br> ![distributionICMP](images/distributionICMP.PNG) |
 |:---:|
 
 We can see that this protocol is dominated by the "smurf" anomaly, a DoS type attack. 
@@ -609,7 +609,7 @@ We also see some Probing attack, such as ipsweep and other less frequent anomali
 
 #### TCP
 
-| *TCP request Distribution*<br> ![distributionTCP](images/distributionTCP.png) |
+| *TCP request Distribution*<br> ![distributionTCP](images/distributionTCP.PNG) |
 |:---:|
 
 We have 2 main request type for this protocol :
@@ -622,7 +622,7 @@ This protocol also have the most unique attack types of all, with 20 different r
 
 #### UDP
 
-| *UDP request Distribution*<br> ![distributionUDP](images/distributionUDP.png) |
+| *UDP request Distribution*<br> ![distributionUDP](images/distributionUDP.PNG) |
 |:---:|
 
 This protocol is mainly used for normal attacks, but we can also see some probing and I2R attacks.
