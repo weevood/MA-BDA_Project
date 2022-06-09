@@ -190,6 +190,41 @@ Buffer overflow is the most common of U2R attacks. This class begins by gaining 
 
 Probing is a class of attack where the attacker probes a network for vulnerabilities such as open ports that can be used to identify services that run on the resource. They often obtain privileged access to a non-expecting host through an identified vulnerability.
 
+#### Characteristics
+
+```scala
++----------------+--------------------+--------------------+
+|           label|      avg(src_bytes)|      avg(dst_bytes)|
++----------------+--------------------+--------------------+
+|           imap.|   347.5833333333333|  54948.666666666664|
+|           nmap.|                 0.0|                 0.0|
+|   guess_passwd.|  125.33962264150944|  216.18867924528303|
+|        ipsweep.|   4.451298701298701|  59.357142857142854|
+|      portsweep.|  431957.20217161527|  202798.16930911885|
+|          satan.|  0.9351099172969534|   2.244504135152329|
+|           land.|                 0.0|                 0.0|
+|     loadmodule.|  151.88888888888889|  3009.8888888888887|
+|      ftp_write.|              220.75|             5382.25|
+|buffer_overflow.|  1400.4333333333334|   6339.833333333333|
+|           perl.|   265.6666666666667|              2444.0|
+|            phf.|                51.0|              8127.0|
+|       multihop.|  435.14285714285717|   213016.2857142857|
+|        neptune.|0.009994244494257088|8.208825046617731E-4|
+|           back.|  54156.355878347706|   8232.649568769859|
+|         normal.|   1844.290639676324|  4071.3161200515174|
+|    warezmaster.|                49.3|           3922087.7|
+|        rootkit.|   415.2857142857143|   6108.857142857143|
+|    warezclient.|    300219.562745098|   719.3176470588236|
+|            spy.|               174.5|              1193.5|
++----------------+--------------------+--------------------+
+```
+
+We can see that the DoS attacks have packets of much smaller size than normal ones
+
+Both R2L and U2R attacks have more "normal" size
+
+The most noticable change is the portsweep attack, where the size is 5 to 20 times a normal request
+
 ### 3.2 How to find the optimal value of the hyperparameter K of the K-means clustering ?
 
 For this question, we want to know how many clusters are appropriate for this data set. As there are 23 possible distinct label values for classification, it seems that k must be at least 23. If the value of k chosen is equal to the number of data points, each point will be its own cluster. The value of k must therefore be between 23 and 4.9 million, this leaves us with a considerable choice of values !
