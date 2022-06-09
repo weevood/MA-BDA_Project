@@ -85,7 +85,18 @@ object RunKMeans {
 
     // --- Question c)
     println("--- protocolDistribution ---")
-    protocolDistribution(data)
+    //protocolDistribution(data)
+
+
+    println("--- attackDistribution UDP ---")
+    attackByProtocolDistribution(data,"udp")
+
+    println("--- attackDistribution TCP ---")
+    attackByProtocolDistribution(data,"tcp")
+
+    println("--- attackDistribution ICMP ---")
+    attackByProtocolDistribution(data,"icmp")
+
 
     data.unpersist()
   }
@@ -637,6 +648,17 @@ object RunKMeans {
     data.select("protocol_type", "label")
       .where("label != 'normal'")
       .groupBy("protocol_type").count().orderBy($"count".desc)
+      .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
+      .show(100)
+  }
+
+  def attackByProtocolDistribution(data: DataFrame, protocol: String): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    data.select("label")
+      .where($"protocol_type" === protocol)
+      .groupBy("label").count().orderBy($"count".desc)
       .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
       .show(100)
   }
