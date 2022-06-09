@@ -587,11 +587,21 @@ To improve clustering and obtain even better results on the classification of th
 
 ### 3.3 What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 
-#### Algorithms you applied
-#### Optimisations you performed
-#### Your approach to testing and evaluation
-#### Results you obtained
-#### Possible future enhancements
+First, we need to see which protocol is mainly used for the attacks
+
+| *Protocol distribution*<br> ![protocolDistribution](images/protocolDistribution.png) |
+|:---:|
+
+We clearly see that the most used protocol is IMCP, followed by TCP and then UDP, at a much lower rate.
+
+For each protocol, we can also see what attack type was the most present
+
+#### IMCP
+
+#### TCP
+
+#### UDP
+
 
 ## Conclusion
 

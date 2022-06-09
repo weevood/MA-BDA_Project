@@ -85,18 +85,13 @@ object RunKMeans {
 
     // --- Question c)
     println("--- protocolDistribution ---")
-    //protocolDistribution(data)
-
-
+    protocolDistribution(data)
     println("--- attackDistribution UDP ---")
     attackByProtocolDistribution(data,"udp")
-
     println("--- attackDistribution TCP ---")
     attackByProtocolDistribution(data,"tcp")
-
     println("--- attackDistribution ICMP ---")
     attackByProtocolDistribution(data,"icmp")
-
 
     data.unpersist()
   }
