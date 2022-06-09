@@ -411,7 +411,7 @@ With this evaluation of the distance by the cosine and after 3 runs, the best sc
 
 Another measure attempting to assess not only the proximity of points within a cluster, but also the proximity of points to other clusters can be implemented. The *Silhouette coefficient* is one such measure, and we have carried out tests with it.
 
-**! TODO !**
+Unfortunately, after many tests, we were not able to train our model and evaluate it with the *"Silhouette coefficient"*. This could be done in an improvement section to confirm or refute the results already found with the Euclidean distance.
 
 ###### Bisecting K-means - `clusteringScore7`
 
