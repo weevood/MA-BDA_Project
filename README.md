@@ -422,14 +422,18 @@ We ran the "Bisecting K-means" algorithm with the same parameters as those used 
 | *k from 20 to 300, jumps of 10*<br> ![clusteringScore7](images/Qb-clusteringScore7-1.png) |
 |:---:|
 
-As these trainings are very time consuming, we lack the time to make more accurate runs with this algorithm. However, the conclusions are again the same, a kink appears at **k = 190**, so we should continue to test with k values around 190.
+As these trainings are very time consuming, we lack the time to make more accurate runs with this algorithm. However, the conclusions are again the same, an elbow appears at k = 190, so we should continue to test with k values around 190.
 
 | *k from 185 to 195, jumps of 1*<br> ![clusteringScore7](images/Qb-clusteringScore7-2.png) |
 |:---:|
 
+If we try a (quick) run around k = 190, we obtain the best score values three times for **k = 188**. Again, it would be good to do more tests with larger ranges of values.
+
 #### Your approach to testing and evaluation
 
 **! TODO !**
+
+=> Predict with new data ? look in pdf
 
 #### Results you obtained
 
@@ -441,7 +445,94 @@ As these trainings are very time consuming, we lack the time to make more accura
 | Non-numeric features - `clusteringScore3` | around k = 185 | - |
 | **Entropy - `clusteringScore4`** | around k = 185 | **k = 192** |
 | **Cosine distance measure - `clusteringScore5`** | 170 <= k <= 200 | **k = 187** |
-| Bisecting K-means - `clusteringScore7` | around k = 190 | - |
+| **Bisecting K-means - `clusteringScore7`** | around k = 190 | **k = 188** |
+
+_k = 187_
+
+```scala
++-------+------------+------+
+|cluster|       label| count|
++-------+------------+------+
+|      0|    neptune.|358926|
+|      0|  portsweep.|    99|
+|      1|     normal.| 68058|
+|      2|     normal.|    86|
+|      2|      smurf.|163509|
+|      3|    neptune.|   837|
+|      3|  portsweep.|    11|
+|      3|      satan.|     3|
+|      4|     normal.|  3833|
+|      5|    ipsweep.|   819|
+|      5|       nmap.|    36|
+|      5|     normal.|  3693|
+|      5|  portsweep.|     2|
+|      5|      satan.|    23|
+|      6|      satan.|     2|
+|      7|    neptune.|   200|
+|      7|  portsweep.|    10|
+|      7|      satan.|     3|
+|      8|     normal.|   538|
+|      8|warezclient.|   274|
++-------+------------+------+
+```
+
+_k = 188_
+
+```scala
++-------+----------+-----+
+|cluster|     label|count|
++-------+----------+-----+
+|      0|     back.|   15|
+|      0|   normal.|61389|
+|      1|  neptune.| 1030|
+|      1|portsweep.|    7|
+|      1|    satan.|    2|
+|      2|  ipsweep.|   13|
+|      2|  neptune.| 1036|
+|      2|portsweep.|   13|
+|      2|    satan.|    3|
+|      3| teardrop.|  970|
+|      4|  neptune.|  827|
+|      4|portsweep.|    5|
+|      4|    satan.|    6|
+|      5|  neptune.| 1038|
+|      5|portsweep.|   10|
+|      5|    satan.|    3|
+|      6|  ipsweep.|   12|
+|      6|   normal.|  503|
+|      6|portsweep.|    5|
+|      6|    satan.|    1|
++-------+----------+-----+
+```
+
+_k = 192_
+
+```scala
++-------+------------+-------+
+|cluster|       label|  count|
++-------+------------+-------+
+|      0|    neptune.| 359264|
+|      0|  portsweep.|    134|
+|      1|    ipsweep.|     40|
+|      1|       nmap.|      6|
+|      1|     normal.|   3384|
+|      1|  portsweep.|      2|
+|      1|      satan.|      7|
+|      1|      smurf.|2807852|
+|      2|    neptune.|   1035|
+|      2|  portsweep.|      7|
+|      2|      satan.|      2|
+|      3|  ftp_write.|      1|
+|      3|    neptune.|    832|
+|      3|  portsweep.|      5|
+|      3|      satan.|      3|
+|      4|    neptune.|   1035|
+|      4|  portsweep.|      9|
+|      4|      satan.|      2|
+|      5|     normal.|    840|
+|      5|warezclient.|      5|
++-------+------------+-------+
+```
 
 #### Possible future enhancements
 
