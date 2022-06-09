@@ -172,21 +172,23 @@ After brainstorming and validation, we have decided to develop the following ana
 
 ### 3.1 What are the characteristics and features that define an anomaly ?
 
-There are typicaly 4 types of anomaly
+#### Types of anomaly
 
-#### DoS (Denial of Service) attacks
+We have been able to identify that there are typically 4 types of anomalies. Each of these is described below.
+
+##### 1. DoS (Denial of Service) attacks
 
 This is the most dangerous class of cyber-attacks that acts by creating a lot of traffic within the computing or memory resource making it too full thereby unable to handle requests by legitimate users of the system. Examples of this attack include Back, Smurf, TCP SYN flooding, Land, Teardrop and Neptune.
 
-#### R2L (Root to Local) attacks
+##### 2. R2L (Root to Local) attacks
 
 This class of attacks sends packets to the network with an intention of prying on their vulnerabilities to gain illegal local access to resources that exist on that network. They include Ftp-Write, Xsnoop, Guest and the Dictionary that target misconfigured or weak system securities. Xlock attack is another that uses social engineering to gain access.
 
-#### U2R (User to Root) attacks
+##### 3. U2R (User to Root) attacks
 
 Buffer overflow is the most common of U2R attacks. This class begins by gaining access to a normal user while sniffing around for passwords to gain access as a root user to a computer resource.
 
-#### Probing
+##### 4. Probing
 
 Probing is a class of attack where the attacker probes a network for vulnerabilities such as open ports that can be used to identify services that run on the resource. They often obtain privileged access to a non-expecting host through an identified vulnerability.
 
@@ -219,11 +221,9 @@ Probing is a class of attack where the attacker probes a network for vulnerabili
 +----------------+--------------------+--------------------+
 ```
 
-We can see that the DoS attacks have packets of much smaller size than normal ones
+We can see that the DoS attacks have packets of much smaller size than normal ones. Both R2L and U2R attacks have more "normal" size.
 
-Both R2L and U2R attacks have more "normal" size
-
-The most noticable change is the portsweep attack, where the size is 5 to 20 times a normal request
+The most noticable change is the portsweep attack, where the size is 5 to 20 times a normal request.
 
 ### 3.2 How to find the optimal value of the hyperparameter K of the K-means clustering ?
 
@@ -344,7 +344,9 @@ If we sum the results of the scores of the 3 runs, and sort these sums in an asc
 
 ###### Clustering - `fitPipeline4`
 
-_k = 192_
+It is possible with scala to display the clusters that have been defined for a specific k. For each group, we can print the labels to get an idea of the resulting clustering. 
+
+**k = 192**
 
 ```scala
 +-------+------------+-------+
@@ -370,10 +372,19 @@ _k = 192_
 |      4|      satan.|      2|
 |      5|     normal.|    840|
 |      5|warezclient.|      5|
+|    ...|.        ...|    ...|
 +-------+------------+-------+
 ```
 
-_k = 187_
+With k = 192 and this clustering, we can see that:
+
+- Cluster 0 is clearly regrouping neptune attacks.
+- Cluster 1 groups the smurf attacks, but some normal connections are also grouped in this.
+- Cluster 2, 3 and 4 groups neptune attacks to.
+
+And this continues for the other 188 clusters.
+
+**k = 187**
 
 ```scala
 +-------+------------+------+
@@ -399,10 +410,21 @@ _k = 187_
 |      7|      satan.|     3|
 |      8|     normal.|   538|
 |      8|warezclient.|   274|
+|    ...|         ...|   ...|
 +-------+------------+------+
 ```
 
-_k = 191_
+With k = 187 and this clustering, we can see that:
+
+- Cluster 0 is always regrouping neptune attacks.
+- Cluster 1 groups only normal connections.
+- Cluster 2 groups the smurf attacks, but a little of normal connections are also grouped in this.
+- Cluster 3 groups neptune attacks to.
+- ...
+
+This clustering seems to do some smaller clusters. In order to identify whether its grouping is more suitable than the previous one, it would be necessary to analyse all the clusters created.
+
+**k = 191**
 
 ```scala
 +-------+----------+-------+
@@ -428,8 +450,16 @@ _k = 191_
 |      4|    satan.|      3|
 |      5|portsweep.|      2|
 |      5|    satan.|  10627|
+|    ...|       ...|    ...|
 +-------+----------+-------+
 ```
+
+With k = 191 and this clustering, we can see that:
+
+- Interesting, Cluster 0 groups only neptune attakcs, and a lot of it!
+- Cluster 1 groups normal connections but with some neptune attakcs, which may be problematic.
+- Cluster 2 groups other neptune attakcs.
+- Cluster 3 groups smurf attacks but again with some normal connections which may be problematic.
 
 ##### Improvements and optimisations
 
@@ -587,46 +617,48 @@ To improve clustering and obtain even better results on the classification of th
 
 ### 3.3 What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 
-First, we need to see which protocol is mainly used for the attacks
+First, we need to discover and visualize which protocol is mainly used for the attacks. To do that, we write a scala function and plot the results into a pie chart.
 
-| *Protocol distribution*<br> ![protocolDistribution](images/protocolDistribution.png) |
-|:---:|
+```scala
+// Determine the distribution of request by each protocol
+data.select("protocol_type", "label")
+  .where("label != 'normal'")
+  .groupBy("protocol_type").count().orderBy($"count".desc)
+  .withColumn("percentage", round(($"count" / data.count()) * 100, 2))
+  .show(100)
+```
 
-We clearly see that the most used protocol is IMCP, followed by TCP and then UDP, at a much lower rate. This can easily be explained if we look into details which protocol have which attack.
+![protocolDistribution](images/protocolDistribution.png)
 
-For each protocol, we can also see what attack type was the most present
+We clearly see that the most used protocol is *IMCP*, followed by *TCP* and then *UDP*, at a much lower rate. This can easily be explained if we look into details which protocol have which attack.
 
-#### IMCP
+For each protocols (*TCP, UDP and ICMP*), we can also see what attack type was the most present.Again, we write a scala function to do this and plot the results.
+
+**IMCP**
 
 | *ICMP request Distribution*<br> ![distributionICMP](images/distributionICMP.PNG) |
 |:---:|
 
-We can see that this protocol is dominated by the "smurf" anomaly, a DoS type attack. 
+We can see that this protocol is dominated by the "smurf" anomaly, a DoS type attack. If we remove this attack, we still have about 50% of the rest as normal requests. We also see some Probing attack, such as ipsweep and other less frequent anomalies
 
-If we remove this attack, we still have about 50% of the rest as normal requests.
-
-We also see some Probing attack, such as ipsweep and other less frequent anomalies
-
-#### TCP
+**TCP**
 
 | *TCP request Distribution*<br> ![distributionTCP](images/distributionTCP.PNG) |
 |:---:|
 
 We have 2 main request type for this protocol :
+
 - DoS attack "neptune", with 57% of TCP requests
 - Normal requests
 
-If we look at the less frequent requests, we see some probing, with portsweep, and some R2L attacks with warezclient
+If we look at the less frequent requests, we see some probing, with *portsweep*, and some *R2L* attacks with *warezclient*. This protocol also have the most unique attack types of all, with 20 different request labels.
 
-This protocol also have the most unique attack types of all, with 20 different request labels.
-
-#### UDP
+**UDP**
 
 | *UDP request Distribution*<br> ![distributionUDP](images/distributionUDP.PNG) |
 |:---:|
 
-This protocol is mainly used for normal attacks, but we can also see some probing and I2R attacks.
-UDP is less used for DoS attacks, which is the reason why there are less requests using it.
+This protocol is mainly used for normal attacks, but we can also see some probing and *I2R* attacks. UDP is less used for *DoS* attacks, which is the reason why there are less requests using it.
 
 #### Analysis
 
@@ -634,30 +666,30 @@ Hereafter are the raw number of request for each protocol.
 
 ```scala
 --- attackDistribution TCP ---      --- attackDistribution UDP ---
-+----------------+-------+		+---------+------+
-|           label|  count|		|    label| count|
-+----------------+-------+		+---------+------+
-|        neptune.|1072017|		|  normal.|191348|
-|         normal.| 768670|		|   satan.|  1708|
-|          satan.|  14147|		|teardrop.|   979|
-|      portsweep.|  10407|		|    nmap.|   250|
-|           back.|   2203|		| rootkit.|     3|
-|           nmap.|   1034|		+---------+------+
-|    warezclient.|   1020|
-|        ipsweep.|    924|	   --- attackDistribution ICMP ---
-|   guess_passwd.|     53|		+----------+-------+
-|buffer_overflow.|     30|		|     label|  count|
-|           land.|     21|		+----------+-------+
-|    warezmaster.|     20|		|    smurf.|2807886|
-|           imap.|     12|		|   normal.|  12763|
-|     loadmodule.|      9|		|  ipsweep.|  11557|
-|      ftp_write.|      8|		|     nmap.|   1032|
-|       multihop.|      7|		|      pod.|    264|
-|        rootkit.|      7|		|    satan.|     37|
-|            phf.|      4|		|portsweep.|      6|
-|           perl.|      3|		+----------+-------+
-|            spy.|      2|
-+----------------+-------+
+  +----------------+-------+		       +---------+------+
+  |           label|  count|		       |    label| count|
+  +----------------+-------+		       +---------+------+
+  |        neptune.|1072017|		       |  normal.|191348|
+  |         normal.| 768670|		       |   satan.|  1708|
+  |          satan.|  14147|		       |teardrop.|   979|
+  |      portsweep.|  10407|		       |    nmap.|   250|
+  |           back.|   2203|		       | rootkit.|     3|
+  |           nmap.|   1034|		       +---------+------+
+  |    warezclient.|   1020|
+  |        ipsweep.|    924|	       --- attackDistribution ICMP ---
+  |   guess_passwd.|     53|		       +----------+-------+
+  |buffer_overflow.|     30|		       |     label|  count|
+  |           land.|     21|		       +----------+-------+
+  |    warezmaster.|     20|		       |    smurf.|2807886|
+  |           imap.|     12|		       |   normal.|  12763|
+  |     loadmodule.|      9|		       |  ipsweep.|  11557|
+  |      ftp_write.|      8|		       |     nmap.|   1032|
+  |       multihop.|      7|		       |      pod.|    264|
+  |        rootkit.|      7|		       |    satan.|     37|
+  |            phf.|      4|		       |portsweep.|      6|
+  |           perl.|      3|		       +----------+-------+
+  |            spy.|      2|
+  +----------------+-------+
 ```
 
 We can see that some labels only appear in one protocol, such as neptune, smurf or perl, while others appear in multiple protocol, such as rootkit, portsweep or nmap.

@@ -639,7 +639,7 @@ object RunKMeans {
     val spark = data.sparkSession
     import spark.implicits._
 
-    //determine the distribution of request by each protocol
+    // Determine the distribution of request by each protocol
     data.select("protocol_type", "label")
       .where("label != 'normal'")
       .groupBy("protocol_type").count().orderBy($"count".desc)
