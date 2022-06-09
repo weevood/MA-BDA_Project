@@ -172,11 +172,23 @@ After brainstorming and validation, we have decided to develop the following ana
 
 ### 3.1 What are the characteristics and features that define an anomaly ?
 
-#### Algorithms you applied
-#### Optimisations you performed
-#### Your approach to testing and evaluation
-#### Results you obtained
-#### Possible future enhancements
+There are typicaly 4 types of anomaly
+
+#### DoS (Denial of Service) attacks
+
+This is the most dangerous class of cyber-attacks that acts by creating a lot of traffic within the computing or memory resource making it too full thereby unable to handle requests by legitimate users of the system. Examples of this attack include Back, Smurf, TCP SYN flooding, Land, Teardrop and Neptune.
+
+#### R2L (Root to Local) attacks
+
+This class of attacks sends packets to the network with an intention of prying on their vulnerabilities to gain illegal local access to resources that exist on that network. They include Ftp-Write, Xsnoop, Guest and the Dictionary that target misconfigured or weak system securities. Xlock attack is another that uses social engineering to gain access.
+
+#### U2R (User to Root) attacks
+
+Buffer overflow is the most common of U2R attacks. This class begins by gaining access to a normal user while sniffing around for passwords to gain access as a root user to a computer resource.
+
+#### Probing
+
+Probing is a class of attack where the attacker probes a network for vulnerabilities such as open ports that can be used to identify services that run on the resource. They often obtain privileged access to a non-expecting host through an identified vulnerability.
 
 ### 3.2 How to find the optimal value of the hyperparameter K of the K-means clustering ?
 
