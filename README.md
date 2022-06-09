@@ -590,6 +590,7 @@ To improve clustering and obtain even better results on the classification of th
 First, we need to see which protocol is mainly used for the attacks
 
 | *Protocol distribution*<br> ![protocolDistribution](images/protocolDistribution.png) |
+|:---:|
 
 We clearly see that the most used protocol is IMCP, followed by TCP and then UDP, at a much lower rate.
 
