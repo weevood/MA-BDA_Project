@@ -1,7 +1,7 @@
 # MA-BDA - Anomaly Detection in Network Traffic with K-means Clustering
 
 ###### Alt Thibaud, Bueche Lucas | Deadline on Friday 10.06.2022
-###### 🔗 [Documentation](/Documentation/Project-Report.pdf) | 🔗 [Presentation slides](/Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx) | 🔗 [github.com/weevood/MA-BDA_Project](https://github.com/weevood/MA-BDA_Project)
+###### 🔗 [Documentation](/Documentation/Project-Report.pdf) | 🔗 [Presentation slides](/Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx) | 🔗 [github.com/weevood/MA-BDA\_Project](https://github.com/weevood/MA-BDA_Project)
 
 ## Summary
 
@@ -506,13 +506,9 @@ As these trainings are very time consuming, we lack the time to make more accura
 
 If we try a (quick) run around k = 190, we obtain the best score values three times for **k = 188**. Again, it would be good to do more tests with larger ranges of values.
 
-#### Your approach to testing and evaluation
+#### Testing, evaluation and results
 
-**! TODO !**
-
-=> Predict with new data ? look in pdf
-
-#### Results you obtained
+After all these different steps and improvements, we can combine some results and draw some conclusions. We have grouped in a table all the steps with a estimated best range for k value and an "ideal" value.
 
 | Step | Estimated range value | Best *k* value |
 |:-----|:-------------:|:-------------:|
@@ -524,96 +520,47 @@ If we try a (quick) run around k = 190, we obtain the best score values three ti
 | **Cosine distance measure - `clusteringScore5`** | 170 <= k <= 200 | **k = 187** |
 | **Bisecting K-means - `clusteringScore7`** | around k = 190 | **k = 188** |
 
-_k = 187_
+But finally, the correct choice of the k parameter is determined by the purpose of the application. And for this, we run each clustering one last time with the best founded k-value. This gives us the clusters with their labels and the number of samples classified in each of them that we can graph.
 
-```scala
-+-------+------------+------+
-|cluster|       label| count|
-+-------+------------+------+
-|      0|    neptune.|358926|
-|      0|  portsweep.|    99|
-|      1|     normal.| 68058|
-|      2|     normal.|    86|
-|      2|      smurf.|163509|
-|      3|    neptune.|   837|
-|      3|  portsweep.|    11|
-|      3|      satan.|     3|
-|      4|     normal.|  3833|
-|      5|    ipsweep.|   819|
-|      5|       nmap.|    36|
-|      5|     normal.|  3693|
-|      5|  portsweep.|     2|
-|      5|      satan.|    23|
-|      6|      satan.|     2|
-|      7|    neptune.|   200|
-|      7|  portsweep.|    10|
-|      7|      satan.|     3|
-|      8|     normal.|   538|
-|      8|warezclient.|   274|
-+-------+------------+------+
-```
+**Entropy (clusteringScore4)** | k = 192, maxIter = 60, tolerance = 1.0e-5
 
-_k = 188_
+![clusteringScore4-R1](images/Qb-clusteringScore4-R1.png)
 
-```scala
-+-------+----------+-----+
-|cluster|     label|count|
-+-------+----------+-----+
-|      0|     back.|   15|
-|      0|   normal.|61389|
-|      1|  neptune.| 1030|
-|      1|portsweep.|    7|
-|      1|    satan.|    2|
-|      2|  ipsweep.|   13|
-|      2|  neptune.| 1036|
-|      2|portsweep.|   13|
-|      2|    satan.|    3|
-|      3| teardrop.|  970|
-|      4|  neptune.|  827|
-|      4|portsweep.|    5|
-|      4|    satan.|    6|
-|      5|  neptune.| 1038|
-|      5|portsweep.|   10|
-|      5|    satan.|    3|
-|      6|  ipsweep.|   12|
-|      6|   normal.|  503|
-|      6|portsweep.|    5|
-|      6|    satan.|    1|
-+-------+----------+-----+
-```
+As we can see, the number of clusters per label varies a lot (from 1 to 117). The normal connections are distribuate over 117 clusters, which is not necessarily a good thing.
 
-_k = 192_
+![clusteringScore4-R2](images/Qb-clusteringScore4-R2.png)
 
-```scala
-+-------+------------+-------+
-|cluster|       label|  count|
-+-------+------------+-------+
-|      0|    neptune.| 359264|
-|      0|  portsweep.|    134|
-|      1|    ipsweep.|     40|
-|      1|       nmap.|      6|
-|      1|     normal.|   3384|
-|      1|  portsweep.|      2|
-|      1|      satan.|      7|
-|      1|      smurf.|2807852|
-|      2|    neptune.|   1035|
-|      2|  portsweep.|      7|
-|      2|      satan.|      2|
-|      3|  ftp_write.|      1|
-|      3|    neptune.|    832|
-|      3|  portsweep.|      5|
-|      3|      satan.|      3|
-|      4|    neptune.|   1035|
-|      4|  portsweep.|      9|
-|      4|      satan.|      2|
-|      5|     normal.|    840|
-|      5|warezclient.|      5|
-+-------+------------+-------+
-```
+If we look at number of labels by clusters where count are 10 connections, the 192 clusters contains between 1 and 6 labels. This is good but could be further reduced, the aim being to obtain at best 1 label per cluster.
+
+**Cosine distance measure (clusteringScore5)** | k = 187, maxIter = 60, tolerance = 1.0e-5
+
+![clusteringScore5-R1](images/Qb-clusteringScore5-R1.png)
+
+Here again, the number of clusters per label varies from 1 to 117. There are no significant differences with the previous clustering.
+
+![clusteringScore5-R2](images/Qb-clusteringScore5-R2.png)
+
+On the other hand, when you look at number of labels by clusters where count are 10 connections, the max number of labels per label decrease to 4 which is a good thing.
+
+**Bisecting K-means (clusteringScore7)** | k = 188, maxIter = 60, tolerance = 1.0e-5
+
+![clusteringScore7-R1](images/Qb-clusteringScore7-R1.png)
+
+With *Bisecting K-means*, the maximum number of clusters by labels decrease from 117 to 110, its a good news.
+
+![clusteringScore7-R2](images/Qb-clusteringScore7-R2.png)
+
+If we look at number of labels by clusters where count are 10 connections, there are no more than 2 labels by clusters. This clustering thus seems much better than the two previous ones.
+
+**Combined results**
+
+![clusteringScores-R1](images/Qb-clusteringScores.png)
 
 #### Possible future enhancements
 
-To improve clustering and obtain even better results on the classification of these anomalies, various other models could be applied instead of simple *K-means clustering*. For example, a *Gaussian mixture model* or *DBSCAN* could capture more subtle relationships between data points and cluster centres. Or a neural network with different hidden layers.
+To improve clustering and obtain even better results on the classification of these anomalies, various other models could be applied instead of simple *K-means clustering*. For example, a *Gaussian mixture model* or *DBSCAN* could capture more subtle relationships between data points and cluster centres, a neural network with different hidden layers, etc. 
+
+It would also be useful to test the use of distance functions that can better account for distributions and correlations between features, such as the *Mahalanobis distance*.
 
 ### 3.3 What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 
@@ -700,7 +647,9 @@ Both R2L and I2R are much less represented in term of quantity, independent on w
 
 ## Conclusion
 
-**! TODO !**
+At the beginning, it was hard to get into this project, as we encountered several environmental problems, especially in running the scala application. In addition, the training sessions are extremely long, which makes the tests tedious, but which also forces you to be precise.
+
+This project was very enriching for us and allowed us to discover more in depth *scala*, *spark* and the *k-means* algorithm. The fact that we were able to start from an existing application was a good thing, and the questions to be developed allowed us to understand the subject well. We would have liked to have had more time, in particular to tackle the visualisation part of the project in R, which we deliberately left aside for lack of knowledge. We are happy with the results we have achieved and the learning we have done.
 
 ## Sources
 
@@ -709,3 +658,10 @@ Both R2L and I2R are much less represented in term of quantity, independent on w
 - [kaggle.com/code/abhaymudgal/intrusion-detection-system](https://www.kaggle.com/code/abhaymudgal/intrusion-detection-system)
 - [spark.apache.org/docs/latest/ml-clustering.html#k-means](https://spark.apache.org/docs/latest/ml-clustering.html#k-means)
 - [spark.apache.org/docs/latest/api/scala/org/apache/spark/ml/clustering/KMeans.html](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/ml/clustering/KMeans.html)
+
+## Annexes
+
+- Source code: [RunKMeans.scala](/anomaly-kmeans/src/main/scala/com/cloudera/datascience/kmeans/RunKMeans.scala)
+- Data: [kddcup.data](/anomaly-kmeans/data/kddcup.data) 
+- Slides of the presentation: [Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx](/Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx)
+- Plots of question 2: [Qb-Plots.xlsx](/Documentation/Qb-Plots.xlsx) and results: [Qb-Results.xlsx](/Documentation/Qb-Results.xlsx)

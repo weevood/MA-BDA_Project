@@ -46,52 +46,56 @@ object RunKMeans {
 
     data.cache()
 
-    println("--- labelsDistribution ---")
-    labelsDistribution(data)
+    clusteringFitPipelines(data)
 
-    // --- Question a)
-    println("--- anomalyCharacteristics ---")
-    anomalyCharacteristics(data)
-    println("--- buildAnomalyDetector ---")
-    buildAnomalyDetector(data)
-
-    // --- Question b)
-    println("--- clusteringTake0 ---")
-    clusteringTake0(data)
-    println("--- clusteringTake1 ---")
-    clusteringTake1(data)
-    println("--- clusteringTake2 ---")
-    clusteringTake2(data)
-    println("--- clusteringTake3 ---")
-    clusteringTake3(data)
-    println("--- clusteringTake4 ---")
-    clusteringTake4(data)
-    println("--- clusteringTake1Customized ---")
-    clusteringTake1Customized(data)
-    println("--- clusteringTake2Customized ---")
-    clusteringTake2Customized(data)
-    println("--- clusteringTake3Customized ---")
-    clusteringTake3Customized(data)
-    println("--- clusteringTake4Customized ---")
-    clusteringTake4Customized(data)
-    println("--- clusteringFitPipeline ---")
-    clusteringFitPipeline(data)
-    println("--- clusteringTake5 ---")
-    clusteringTake5(data)
-    println("--- clusteringTake6 ---")
-    clusteringTake6(data)
-    println("--- clusteringTake7 ---")
-    clusteringTake7(data)
-
-    // --- Question c)
-    println("--- protocolDistribution ---")
-    protocolDistribution(data)
-    println("--- attackDistribution UDP ---")
-    attackByProtocolDistribution(data,"udp")
-    println("--- attackDistribution TCP ---")
-    attackByProtocolDistribution(data,"tcp")
-    println("--- attackDistribution ICMP ---")
-    attackByProtocolDistribution(data,"icmp")
+//    println("--- labelsDistribution ---")
+//    labelsDistribution(data)
+//
+//    // --- Question a)
+//    println("--- anomalyCharacteristics ---")
+//    anomalyCharacteristics(data)
+//    println("--- buildAnomalyDetector ---")
+//    buildAnomalyDetector(data)
+//
+//    // --- Question b)
+//    println("--- clusteringTake0 ---")
+//    clusteringTake0(data)
+//    println("--- clusteringTake1 ---")
+//    clusteringTake1(data)
+//    println("--- clusteringTake2 ---")
+//    clusteringTake2(data)
+//    println("--- clusteringTake3 ---")
+//    clusteringTake3(data)
+//    println("--- clusteringTake4 ---")
+//    clusteringTake4(data)
+//    println("--- clusteringTake1Customized ---")
+//    clusteringTake1Customized(data)
+//    println("--- clusteringTake2Customized ---")
+//    clusteringTake2Customized(data)
+//    println("--- clusteringTake3Customized ---")
+//    clusteringTake3Customized(data)
+//    println("--- clusteringTake4Customized ---")
+//    clusteringTake4Customized(data)
+//    println("--- clusteringFitPipeline ---")
+//    clusteringFitPipeline(data)
+//    println("--- clusteringTake5 ---")
+//    clusteringTake5(data)
+//    println("--- clusteringTake6 ---")
+//    clusteringTake6(data)
+//    println("--- clusteringTake7 ---")
+//    clusteringTake7(data)
+//    println("--- clusteringFitPipelines ---")
+//    clusteringFitPipelines(data)
+//
+//    // --- Question c)
+//    println("--- protocolDistribution ---")
+//    protocolDistribution(data)
+//    println("--- attackDistribution UDP ---")
+//    attackByProtocolDistribution(data,"udp")
+//    println("--- attackDistribution TCP ---")
+//    attackByProtocolDistribution(data,"tcp")
+//    println("--- attackDistribution ICMP ---")
+//    attackByProtocolDistribution(data,"icmp")
 
     data.unpersist()
   }
@@ -456,7 +460,7 @@ object RunKMeans {
     val spark = data.sparkSession
     import spark.implicits._
 
-    val pipelineModel = fitPipeline4(data, 180)
+    val pipelineModel = fitPipeline4(data, 192)
 
     val kMeansModel = pipelineModel.stages.last.asInstanceOf[KMeansModel]
     val centroids = kMeansModel.clusterCenters
@@ -479,7 +483,7 @@ object RunKMeans {
 
   // Improvements
 
-  def fitPipeline5(data: DataFrame, k: Int): PipelineModel = {
+  def fitPipeline5(data: DataFrame, k: Int, maxIter: Int = 40, tolerance: Double = 1.0e-5): PipelineModel = {
     val spark = data.sparkSession
     import spark.implicits._
 
@@ -565,7 +569,7 @@ object RunKMeans {
 
   }
 
-  def fitPipeline7(data: DataFrame, k: Int): PipelineModel = {
+  def fitPipeline7(data: DataFrame, k: Int, maxIter: Int = 40, tolerance: Double = 1.0e-5): PipelineModel = {
     val spark = data.sparkSession
     import spark.implicits._
 
@@ -632,6 +636,33 @@ object RunKMeans {
     (160 to 200 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
     (160 to 200 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
     (185 to 195 by 1).map(k => (k, clusteringScore7(data, k))).foreach(println)
+
+  }
+
+  def clusteringFitPipelines(data: DataFrame): Unit = {
+    val spark = data.sparkSession
+    import spark.implicits._
+
+    println("clusteringScore4,  k = 192")
+    fitPipeline4(data, 192, 60, 1.0e-6).transform(data)
+      .select("cluster", "label")
+      .groupBy("cluster", "label").count()
+      .orderBy("cluster", "label")
+      .show(23 * 192)
+
+    println("clusteringScore5 . k = 187")
+    fitPipeline5(data, 187, 60, 1.0e-6).transform(data)
+      .select("cluster", "label")
+      .groupBy("cluster", "label").count()
+      .orderBy("cluster", "label")
+      .show(23 * 192)
+
+    println("clusteringScore7 . k = 188")
+    fitPipeline7(data, 188, 60, 1.0e-6).transform(data)
+      .select("cluster", "label")
+      .groupBy("cluster", "label").count()
+      .orderBy("cluster", "label")
+      .show(23 * 192)
 
   }
 
