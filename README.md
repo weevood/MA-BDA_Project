@@ -592,16 +592,79 @@ First, we need to see which protocol is mainly used for the attacks
 | *Protocol distribution*<br> ![protocolDistribution](images/protocolDistribution.png) |
 |:---:|
 
-We clearly see that the most used protocol is IMCP, followed by TCP and then UDP, at a much lower rate.
+We clearly see that the most used protocol is IMCP, followed by TCP and then UDP, at a much lower rate. This can easily be explained if we look into details which protocol have which attack.
 
 For each protocol, we can also see what attack type was the most present
 
 #### IMCP
 
+| *ICMP request Distribution*<br> ![distributionICMP](images/distributionICMP.png) |
+|:---:|
+
+We can see that this protocol is dominated by the "smurf" anomaly, a DoS type attack. 
+
+If we remove this attack, we still have about 50% of the rest as normal requests.
+
+We also see some Probing attack, such as ipsweep and other less frequent anomalies
+
 #### TCP
+
+| *TCP request Distribution*<br> ![distributionTCP](images/distributionTCP.png) |
+|:---:|
+
+We have 2 main request type for this protocol :
+- DoS attack "neptune", with 57% of TCP requests
+- Normal requests
+
+If we look at the less frequent requests, we see some probing, with portsweep, and some R2L attacks with warezclient
+
+This protocol also have the most unique attack types of all, with 20 different request labels.
 
 #### UDP
 
+| *UDP request Distribution*<br> ![distributionUDP](images/distributionUDP.png) |
+|:---:|
+
+This protocol is mainly used for normal attacks, but we can also see some probing and I2R attacks.
+UDP is less used for DoS attacks, which is the reason why there are less requests using it.
+
+#### Analysis
+
+Hereafter are the raw number of request for each protocol.
+
+```scala
+--- attackDistribution TCP ---      --- attackDistribution UDP ---
++----------------+-------+		+---------+------+
+|           label|  count|		|    label| count|
++----------------+-------+		+---------+------+
+|        neptune.|1072017|		|  normal.|191348|
+|         normal.| 768670|		|   satan.|  1708|
+|          satan.|  14147|		|teardrop.|   979|
+|      portsweep.|  10407|		|    nmap.|   250|
+|           back.|   2203|		| rootkit.|     3|
+|           nmap.|   1034|		+---------+------+
+|    warezclient.|   1020|
+|        ipsweep.|    924|	   --- attackDistribution ICMP ---
+|   guess_passwd.|     53|		+----------+-------+
+|buffer_overflow.|     30|		|     label|  count|
+|           land.|     21|		+----------+-------+
+|    warezmaster.|     20|		|    smurf.|2807886|
+|           imap.|     12|		|   normal.|  12763|
+|     loadmodule.|      9|		|  ipsweep.|  11557|
+|      ftp_write.|      8|		|     nmap.|   1032|
+|       multihop.|      7|		|      pod.|    264|
+|        rootkit.|      7|		|    satan.|     37|
+|            phf.|      4|		|portsweep.|      6|
+|           perl.|      3|		+----------+-------+
+|            spy.|      2|
++----------------+-------+
+```
+
+We can see that some labels only appear in one protocol, such as neptune, smurf or perl, while others appear in multiple protocol, such as rootkit, portsweep or nmap.
+
+The normal requests use a lot more the TCP and UDP protocol, which are the 2 less used overall, due to the overflowing of the "smurf" and "neptune" DoS attacks.
+
+Both R2L and I2R are much less represented in term of quantity, independent on which protocol is used.
 
 ## Conclusion
 
