@@ -232,7 +232,21 @@ For this question, we want to know how many clusters are appropriate for this da
 A clustering is considered good if each data point is close to its nearest centroid. The Euclidean distance can be used to define this distance.
 KMeansModel provides a *computeCost* method that calculates the sum of the squared distances and can be used to define the score of a cluster.
 
-#### Algorithms you applied
+#### Algorithm
+
+###### K-means
+
+To process the training data, the K-means algorithm starts with a first group of randomly selected centroids, which are used as starting points for each group, and then performs iterative (repetitive) calculations to optimise the centroid positions.
+
+![clusteringScore0](images/kmeans.png) 
+*https://realpython.com/k-means-clustering-python/*
+
+**Hyperparameters**
+
+- *k* : The number of clusters to create (Positive integer)
+- *distanceMeasure* : Calculation of the distance measure (Euclidean or Cosine)
+- *maxIter* : The maximum number of iterations (Positive integer)
+- *tol* : The convergence tolerance for iterative algorithms (Positive integer)
 
 ###### The beginning - `clusteringScore0`
 
@@ -556,12 +570,6 @@ If we look at number of labels by clusters where count are 10 connections, there
 
 ![clusteringScores-R1](images/Qb-clusteringScores.png)
 
-#### Possible future enhancements
-
-To improve clustering and obtain even better results on the classification of these anomalies, various other models could be applied instead of simple *K-means clustering*. For example, a *Gaussian mixture model* or *DBSCAN* could capture more subtle relationships between data points and cluster centres, a neural network with different hidden layers, etc. 
-
-It would also be useful to test the use of distance functions that can better account for distributions and correlations between features, such as the *Mahalanobis distance*.
-
 ### 3.3 What is the distribution of attacks on each protocol (*TCP, UDP, ICMP*...), by which service (port) were they carried out, what type of attacks are they and what was the final purpose of the attack ?
 
 First, we need to discover and visualize which protocol is mainly used for the attacks. To do that, we write a scala function and plot the results into a pie chart.
@@ -607,7 +615,7 @@ If we look at the less frequent requests, we see some probing, with *portsweep*,
 
 This protocol is mainly used for normal attacks, but we can also see some probing and *I2R* attacks. UDP is less used for *DoS* attacks, which is the reason why there are less requests using it.
 
-#### Analysis
+##### Analysis
 
 Hereafter are the raw number of request for each protocol.
 
@@ -644,6 +652,12 @@ We can see that some labels only appear in one protocol, such as neptune, smurf 
 The normal requests use a lot more the TCP and UDP protocol, which are the 2 less used overall, due to the overflowing of the "smurf" and "neptune" DoS attacks.
 
 Both R2L and I2R are much less represented in term of quantity, independent on which protocol is used.
+
+### 4. Possible future enhancements
+
+To improve clustering and obtain even better results on the classification of these anomalies, various other models could be applied instead of simple *K-means clustering*. For example, a *Gaussian mixture model* or *DBSCAN* could capture more subtle relationships between data points and cluster centres, a neural network with different hidden layers, etc. 
+
+It would also be useful to test the use of distance functions that can better account for distributions and correlations between features, such as the *Mahalanobis distance*.
 
 ## Conclusion
 
