@@ -676,6 +676,7 @@ This project was very enriching for us and allowed us to discover more in depth 
 ## Annexes
 
 - Source code: [RunKMeans.scala](/anomaly-kmeans/src/main/scala/com/cloudera/datascience/kmeans/RunKMeans.scala)
+- Highlighted changes in scala file: [commit 4b324979c3ca63ea9e838790a4384e0743079c6b](https://github.com/weevood/MA-BDA_Project/commit/4b324979c3ca63ea9e838790a4384e0743079c6b?diff=split)
 - Data: [kddcup.data.gz](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data.gz)
 - Slides of the presentation: [Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx](/Documentation/Anomaly-Detection-in-Network-Traffic-with-K-means-Clustering.pptx)
 - Plots of question 2: [Qb-Plots.xlsx](/Documentation/Qb-Plots.xlsx) and results: [Qb-Results.xlsx](/Documentation/Qb-Results.xlsx)
